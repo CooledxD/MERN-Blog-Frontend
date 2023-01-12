@@ -1,0 +1,7 @@
+@import './assets/normalize/destyle.css';
+
+.title {
+  font-size: 2rem;
+  color: blue;
+  text-align: center;
+}
