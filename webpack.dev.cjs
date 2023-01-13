@@ -14,15 +14,10 @@ module.exports = {
 
   devtool: 'inline-source-map',
 
-  output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: '[name].js',
-    clean: true,
-  },
-
   devServer: {
     hot: true,
     open: true,
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, 'src'),
       watch: true
