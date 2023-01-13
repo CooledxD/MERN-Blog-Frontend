@@ -22,8 +22,10 @@
   "homepage": "https://github.com/CooledxD/MERN-Blog-Frontend#readme",
   "dependencies": {
     "@babel/runtime": "^7.20.7",
+    "@reduxjs/toolkit": "^1.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2"
   },
   "devDependencies": {
