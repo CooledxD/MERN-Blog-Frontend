@@ -1,0 +1,37 @@
+.navbar {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  
+  align-items: center;
+
+  height: 70px;
+}
+
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+
+  width: 57vmin;
+}
+
+.navRight {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+
+  width: 18vmin;
+}
+
+.btnHeader {
+  display: inline-grid;
+  padding: 12px 12px;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 5px;
+
+  white-space: nowrap;
+}
