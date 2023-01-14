@@ -1,14 +1,23 @@
 import React from "react";
 import { Link, NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+
+import { checkIsAuth, logout } from "../../redux/features/auth/authSlice.js";
 
 import styles from './Header.module.css'
 
 export const Header = () => {
+  const isAuth = useSelector(checkIsAuth)
+  const dispatch = useDispatch()
+
+  const logoutHandler = () => {
+    dispatch(logout())
+    window.localStorage.removeItem('token')
+  }
+
   const activeStyles = {
     fontSize: '24px'
   }
-
-  const isAuth = false
 
   return (
     <header>
@@ -42,7 +51,7 @@ export const Header = () => {
           {
             isAuth ? (
               <Link to={'/login'} href="">
-                <span className={styles.btnHeader}>Выйти</span>
+                <span className={styles.btnHeader} onClick={logoutHandler}>Выйти</span>
               </Link>
             ) : (
               <Link to={'/login'} href="">
