@@ -2,12 +2,12 @@ import React from "react";
 import { Link, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
-import { checkIsAuth, logout } from "../../redux/features/auth/authSlice.js";
+import { logout } from "../../redux/features/auth/authSlice.js";
 
 import styles from './Header.module.css'
 
 export const Header = () => {
-  const isAuth = useSelector(checkIsAuth)
+  const isAuth = useSelector((state) => Boolean(state.auth.token))
   const dispatch = useDispatch()
 
   const logoutHandler = () => {

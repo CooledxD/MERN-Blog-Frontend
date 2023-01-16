@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerUser, checkIsAuth } from "../../redux/features/auth/authSlice.js";
+import { registerUser } from "../../redux/features/auth/authSlice.js";
 import styles from './Register.module.css'
 
 export const Register = () => {
@@ -10,7 +10,7 @@ export const Register = () => {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const dispatch = useDispatch()
-  const isAuth = useSelector(checkIsAuth)
+  const isAuth = useSelector((state) => Boolean(state.auth.token))
   const navigate = useNavigate()
 
   useEffect(() => {

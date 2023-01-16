@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { checkIsAuth, loginUser } from "../../redux/features/auth/authSlice.js";
+import { loginUser } from "../../redux/features/auth/authSlice.js";
 import styles from './Login.module.css'
 
 export const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
-  const isAuth = useSelector(checkIsAuth)
+  const isAuth = useSelector((state) => Boolean(state.auth.token))
   const navigate = useNavigate()
 
   useEffect(() => {
