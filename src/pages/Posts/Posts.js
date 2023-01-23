@@ -1,5 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+
+import { PostItem } from "../../components/PostItem/PostItem.js";
+import axios from '../../utils/axios.js';
+import styles from './Posts.module.css'
 
 export const Posts = () => {
-  return <div>Posts</div>
+  const [posts, setPosts] = useState([])
+
+  const fetchUserPosts = async () => {
+    try {
+      const { data } = await axios.get('/posts/user')
+      setPosts(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUserPosts()
+  }, [])
+
+
+  return (
+    <ul className={styles.homePosts}>
+      {
+        posts?.map((post, index) => (
+          <PostItem key={index} post={post} />
+        ))
+      }
+    </ul>
+  )
 }
