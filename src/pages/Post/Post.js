@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import { CommentItem } from "../../components/CommentItem/CommentItem.js";
+import { createComment, getPostComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
 import styles from './Post.module.css'
@@ -12,11 +14,31 @@ export const Post = () => {
   const { user } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [comment, setComment] = useState('')
+  const { comments } = useSelector(state => state.comment)
 
   const removePostHandler = () => {
     try {
       dispatch(removePost(params.id))
       navigate('/posts')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handelSubmit = () => {
+    try {
+      const postId = params.id
+      dispatch(createComment({ postId, comment }))
+      setComment('')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchComments = async () => {
+    try {
+      dispatch(getPostComments(params.id))
     } catch (error) {
       console.log(error)
     }
@@ -33,11 +55,13 @@ export const Post = () => {
 
   useEffect(() => {
     fetchPost()
-  }, [params.id])
+  }, [])
+
+  useEffect(() => {
+    fetchComments()
+  }, [])
 
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
-
-  console.log(params.id)
 
   return (
     <div className={styles.postWrapper}>
@@ -73,7 +97,21 @@ export const Post = () => {
         </footer>
       </article>
       <aside>
-        Comments
+        <form onSubmit={event => event.preventDefault()}>
+          <input 
+            value={comment} 
+            onChange={event => setComment(event.target.value)} 
+            type="text" 
+            placeholder="Comment" />
+          <button onClick={handelSubmit} type="submit">Отправить</button>
+        </form>
+        <ul>
+          {
+            comments?.map((cmt) => (
+              <CommentItem key={cmt._id} cmt={cmt} />
+            ))
+          }
+        </ul>
       </aside>
     </div>
   )
