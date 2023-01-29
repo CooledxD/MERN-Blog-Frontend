@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { updatePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
-import styles from './EditPost.module.css'
+import styles from './editPost.module.css'
 
 export const EditPost = () => {
   const [title, setTitle] = useState('')

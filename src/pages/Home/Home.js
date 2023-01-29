@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { PopularPosts } from "../../components/PopularPosts/PopularPosts.js";
-import { PostItem } from "../../components/PostItem/PostItem.js";
+import { PopularPosts } from "../../components/popularPosts/popularPosts.js";
+import { PostItem } from "../../components/postItem/postItem.js";
 import { getAllPosts } from "../../redux/features/post/postSlice.js";
 
-import styles from './Home.module.css'
+import styles from './home.module.css'
 
 export const Home = () => {
   const dispatch = useDispatch()

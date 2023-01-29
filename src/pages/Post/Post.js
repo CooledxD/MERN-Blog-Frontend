@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { CommentItem } from "../../components/CommentItem/CommentItem.js";
+import { CommentItem } from "../../components/commentItem/commentItem.js";
 import { createComment, getPostComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
-import styles from './Post.module.css'
+import styles from './post.module.css'
 
 export const Post = () => {
   const params = useParams()

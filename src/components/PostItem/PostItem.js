@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
-import styles from './PostItem.module.css'
+import styles from './postItem.module.css'
 
 export const PostItem = ({ post }) => {
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()

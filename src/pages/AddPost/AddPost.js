@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { createPost } from "../../redux/features/post/postSlice.js";
-import styles from './AddPost.module.css'
+import styles from './addPost.module.css'
 
 export const AddPost = () => {
   const [title, setTitle] = useState('')

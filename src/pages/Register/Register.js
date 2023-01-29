@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../redux/features/auth/authSlice.js";
-import styles from './Register.module.css'
+import styles from './register.module.css'
 
 export const Register = () => {
   const [username, setUsername] = useState('')

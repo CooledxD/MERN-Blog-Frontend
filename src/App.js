@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 
-import { Home } from './pages/Home/Home.js'
-import { Post } from './pages/Post/Post.js'
-import { Posts } from './pages/Posts/Posts.js'
-import { AddPost } from './pages/AddPost/AddPost.js'
-import { Register } from './pages/Register/Register.js'
-import { Login } from './pages/Login/Login.js'
-import { EditPost } from './pages/EditPost/EditPost.js'
+import { Home } from './pages/home/home.js'
+import { Post } from './pages/post/post.js'
+import { Posts } from './pages/posts/posts.js'
+import { AddPost } from './pages/addPost/addPost.js'
+import { Register } from './pages/register/register.js'
+import { Login } from './pages/login/login.js'
+import { EditPost } from './pages/editPost/editPost.js'
 
-import { Layout } from './components/Layout/Layout.js';
+import { Layout } from './components/layout/layout.js';
 
 import { getMe } from './redux/features/auth/authSlice.js';
 

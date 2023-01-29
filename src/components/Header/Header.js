@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../../redux/features/auth/authSlice.js";
 
-import styles from './Header.module.css'
+import styles from './header.module.css'
 
 export const Header = () => {
   const isAuth = useSelector((state) => Boolean(state.auth.token))

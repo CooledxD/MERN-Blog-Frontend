@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 
-import { PostItem } from "../../components/PostItem/PostItem.js";
+import { PostItem } from "../../components/postItem/postItem.js";
 import axios from '../../utils/axios.js';
-import styles from './Posts.module.css'
+import styles from './posts.module.css'
 
 export const Posts = () => {
   const [posts, setPosts] = useState([])
