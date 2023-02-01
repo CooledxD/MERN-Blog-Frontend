@@ -77,8 +77,10 @@ export const commentSlice = createSlice({
       state.loading = true
     })
     .addCase(removeComment.fulfilled, (state, action) => {
+      const index = state.comments.indexOf(action)
+      
       state.loading = false
-      state.comments = state.comments.filter(comment => comment._id !== action.payload._id)
+      state.comments.splice(index, 1)
     })
     .addCase(removeComment.rejected, (state) => {
       state.loading = false
