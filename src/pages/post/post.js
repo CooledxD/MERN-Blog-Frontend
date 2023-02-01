@@ -55,9 +55,6 @@ export const Post = () => {
 
   useEffect(() => {
     fetchPost()
-  }, [])
-
-  useEffect(() => {
     fetchComments()
   }, [])
 
