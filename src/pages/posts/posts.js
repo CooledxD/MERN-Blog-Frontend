@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-
 import { PostItem } from "../../components/postItem/postItem.js";
 import axios from '../../utils/axios.js';
 import styles from './posts.module.css'
@@ -21,6 +20,11 @@ export const Posts = () => {
     fetchUserPosts()
   }, [])
 
+  if (!posts.length) {
+    return (
+      <p>Постов не существует.</p>
+    )
+  }
 
   return (
     <ul className={styles.homePosts}>
