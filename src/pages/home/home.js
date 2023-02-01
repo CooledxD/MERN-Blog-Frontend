@@ -13,7 +13,7 @@ export const Home = () => {
   const { posts, popularPosts } = useSelector((state) => state.post)
   const [search, setSearch] = useState('')
   const filterSearch = posts.filter(post => {
-    return post.title.toLowerCase().includes(search.toLowerCase())
+    return post.title?.toLowerCase().includes(search.toLowerCase())
   })
 
   useEffect(() => {
