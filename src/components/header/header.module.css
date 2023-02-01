@@ -35,3 +35,7 @@
 
   white-space: nowrap;
 }
+
+.activeStyles {
+  font-size: 24px;
+}

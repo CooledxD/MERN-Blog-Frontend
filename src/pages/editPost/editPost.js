@@ -28,7 +28,7 @@ export const EditPost = () => {
 
   useEffect(() => {
     fetchPost()
-  }, [params.id])
+  }, [])
 
   const submitHandler = () => {
     try {

@@ -14,12 +14,11 @@ export const Login = () => {
 
   useEffect(() => {
     if(isAuth) navigate('/')
-  }, [isAuth, navigate])
+  }, [isAuth])
 
   const handleSubmit = () => {
     try {
       dispatch(loginUser({username, password}))
-
     } catch (error) {
       console.log(error)
     }

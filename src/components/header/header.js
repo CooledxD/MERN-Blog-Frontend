@@ -12,11 +12,8 @@ export const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout())
+    
     window.localStorage.removeItem('token')
-  }
-
-  const activeStyles = {
-    fontSize: '24px'
   }
 
   return (
@@ -29,19 +26,19 @@ export const Header = () => {
               <li>
                 <NavLink
                   to={'/'}
-                  style={({ isActive }) => isActive ? activeStyles : undefined}
+                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">Главная</NavLink>
               </li>
               <li>
                 <NavLink
                   to={'/posts'}
-                  style={({ isActive }) => isActive ? activeStyles : undefined}
+                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">Мои посты</NavLink>
               </li>
               <li>
                 <NavLink
                   to={'/post/add'}
-                  style={({ isActive }) => isActive ? activeStyles : undefined}
+                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">Добавить пост</NavLink>
               </li>
             </ul>
