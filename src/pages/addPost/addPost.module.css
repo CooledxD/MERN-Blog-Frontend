@@ -9,12 +9,6 @@
   gap: 30px;
 }
 
-.formAddPost__buttonWrapper {
-  display: grid;
-  grid-auto-flow: column;
-  gap: 30px;
-}
-
 .fromAddPost__input {
   padding: 12px 12px;
 
@@ -42,4 +36,16 @@
 .formAddPost__image {
   border-radius: 15px;
   max-width: 50%;
+}
+
+.quill {
+  max-width: 450px;
+}
+
+.quill [contenteditable]:focus {
+  outline: none;
+}
+
+.quill [contenteditable] {
+  min-height: 150px;
 }

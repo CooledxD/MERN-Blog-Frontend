@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css'
 
 import { updatePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
@@ -46,50 +48,43 @@ export const EditPost = () => {
     }
   }
 
-  const clearFormHandler = () => {
-    setText('')
-    setTitle('')
-    setNewImage('')
-  }
-
   return (
     <div className={styles.formWrapper}>
       <form className={styles.formAddPost} onSubmit={(event) => event.preventDefault()}>
         <label className={styles.fromAddPost__input}>
           Прикрепить изображение
-          <input 
+          <input
             onChange={(event) => {
               setNewImage(event.target.files[0])
               setOldImage('')
-            }} 
-            type="file" 
-            hidden/>
+            }}
+            type="file"
+            hidden />
         </label>
-        { 
+        {
           oldImage && (
             <img className={styles.formAddPost__image} src={`http://localhost:3000/${oldImage}`} alt="post image" />
           )
         }
-        { 
+        {
           newImage && (
             <img className={styles.formAddPost__image} src={URL.createObjectURL(newImage)} alt="post image" />
           )
         }
 
-        <input 
-          className={styles.fromAddPost__input} 
+        <input
+          className={styles.fromAddPost__input}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          type="text" 
+          type="text"
           placeholder="Заголовок поста" />
-        <textarea 
-          className={styles.fromAddPost__textarea} 
+        <ReactQuill
+          theme='snow'
           value={text}
-          onChange={(event) => setText(event.target.value)}
-          placeholder='Текс поста' />
+          onChange={setText}
+          className={styles.quill} />
         <div className={styles.formAddPost__buttonWrapper}>
           <button onClick={submitHandler}>Сохранить</button>
-          <button onClick={clearFormHandler}>Отменить</button>
         </div>
       </form>
     </div>

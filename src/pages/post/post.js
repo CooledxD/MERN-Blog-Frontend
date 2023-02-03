@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import parse from 'html-react-parser'
 
 import { CommentItem } from "../../components/commentItem/commentItem.js";
 import { createComment, getPostComments } from "../../redux/features/comment/commentSlice.js";
@@ -71,7 +72,9 @@ export const Post = () => {
         {
           post.image && <img className={styles.post__image} src={`http://localhost:3000/${post.image}`} alt="image post" />
         }
-        <p>{post.text}</p>
+        <div>
+          { parse(String(post.text)) }
+        </div>
         <footer>
           <div>
             <img src="" alt="views" /> <span>{post.views}</span>

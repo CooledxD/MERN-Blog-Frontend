@@ -43,3 +43,15 @@
   border-radius: 15px;
   max-width: 50%;
 }
+
+.quill {
+  max-width: 450px;
+}
+
+.quill [contenteditable]:focus {
+  outline: none;
+}
+
+.quill [contenteditable] {
+  min-height: 150px;
+}

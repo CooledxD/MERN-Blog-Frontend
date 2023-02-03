@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser'
 
 import styles from './postItem.module.css'
 
@@ -19,7 +20,7 @@ export const PostItem = ({ post }) => {
             <time>{ date }</time>
           </header>
           <h3>{ post.title }</h3>
-          <p className={styles.postItem__text}>{ post.text }</p>
+          <div className={styles.postItem__text}>{ parse(post.text) }</div>
           <footer>
             <button>
               <img src="" alt="views" /> <span>{ post.views }</span>
