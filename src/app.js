@@ -35,7 +35,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getMe())
-  }, [])
+  }, [dispatch])
 
   return (
     <RouterProvider router={router} />

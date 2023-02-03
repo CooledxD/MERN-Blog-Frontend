@@ -8,6 +8,7 @@ import { createComment, getPostComments } from "../../redux/features/comment/com
 import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
 import styles from './post.module.css'
+import { useCallback } from "react";
 
 export const Post = () => {
   const params = useParams()
@@ -37,27 +38,27 @@ export const Post = () => {
     }
   }
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       dispatch(getPostComments(params.id))
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [dispatch, params.id])
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const { data } = await axios.get(`/posts/${params.id}`)
       setPost(data)
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [params.id])
 
   useEffect(() => {
     fetchPost()
     fetchComments()
-  }, [])
+  }, [fetchPost, fetchComments])
 
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
 

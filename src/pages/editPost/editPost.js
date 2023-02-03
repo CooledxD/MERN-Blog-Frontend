@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css'
 import { updatePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
 import styles from './editPost.module.css'
+import { useCallback } from "react";
 
 export const EditPost = () => {
   const [title, setTitle] = useState('')
@@ -17,7 +18,7 @@ export const EditPost = () => {
   const navigate = useNavigate()
   const params = useParams()
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const { data } = await axios.get(`/posts/${params.id}`)
       setTitle(data.title)
@@ -26,11 +27,11 @@ export const EditPost = () => {
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [params.id])
 
   useEffect(() => {
     fetchPost()
-  }, [])
+  }, [fetchPost])
 
   const submitHandler = () => {
     try {

@@ -15,7 +15,7 @@ export const Register = () => {
 
   useEffect(() => {
     if(isAuth) navigate('/')
-  }, [isAuth])
+  }, [isAuth, navigate])
 
   const handleSubmit = () => {
     try {
