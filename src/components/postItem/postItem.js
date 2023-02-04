@@ -22,12 +22,15 @@ export const PostItem = ({ post }) => {
           <h3>{ post.title }</h3>
           <div className={styles.postItem__text}>{ parse(post.text) }</div>
           <footer>
-            <button>
+            <div>
+              <img src="" alt="likes" /> <span>{post.likes?.length}</span>
+            </div>
+            <div>
               <img src="" alt="views" /> <span>{ post.views }</span>
-            </button>
-            <button>
+            </div>
+            <div>
               <img src="" alt="count comment" /> <span>{ post.comments?.length }</span>
-            </button>
+            </div>
           </footer>
         </article>
       </li>

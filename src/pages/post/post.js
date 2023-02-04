@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import parse from 'html-react-parser'
@@ -8,7 +8,6 @@ import { createComment, getPostComments } from "../../redux/features/comment/com
 import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
 import styles from './post.module.css'
-import { useCallback } from "react";
 
 export const Post = () => {
   const params = useParams()
@@ -18,6 +17,7 @@ export const Post = () => {
   const navigate = useNavigate()
   const [comment, setComment] = useState('')
   const { comments } = useSelector(state => state.comment)
+  const isAuth = useSelector((state) => Boolean(state.auth.token))
 
   const removePostHandler = () => {
     try {
@@ -55,6 +55,34 @@ export const Post = () => {
     }
   }, [params.id])
 
+  const addOrRemoveUserLikePost = useCallback(async () => {
+    try {
+      const likes = post.likes
+      const copyPost = {...post}
+
+      if (post.likes.includes(user.username)) {
+
+        await axios.delete(`/posts/likes/${params.id}`, {
+          data: {
+            username: user.username
+          }
+        })
+
+        likes.splice(likes.indexOf(user.username), 1)
+
+        setPost(Object.assign(copyPost, { likes: [...likes] }))
+      } else {
+        await axios.put(`/posts/likes/${params.id}`, {
+          username: user.username
+        })
+  
+        setPost(Object.assign(copyPost, { likes: [...copyPost.likes, user.username] }))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [params.id, user?.username, post])
+
   useEffect(() => {
     fetchPost()
     fetchComments()
@@ -77,6 +105,11 @@ export const Post = () => {
           { parse(String(post.text)) }
         </div>
         <footer>
+          <div>
+            <button onClick={ isAuth ? addOrRemoveUserLikePost: undefined}>
+              <img src="" alt="likes" /> <span>{post.likes?.length}</span>
+            </button>
+          </div>
           <div>
             <img src="" alt="views" /> <span>{post.views}</span>
           </div>
