@@ -9,6 +9,7 @@ import { AddPost } from './pages/addPost/addPost.js'
 import { Register } from './pages/register/register.js'
 import { Login } from './pages/login/login.js'
 import { EditPost } from './pages/editPost/editPost.js'
+import { Profile } from './pages/profile/profile.js'
 
 import { Layout } from './components/layout/layout.js';
 
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path='post/:id/edit' element={<EditPost />} />
       <Route path='register' element={<Register />} />
       <Route path='login' element={<Login />} />
+      <Route path='profile' element={<Profile />} />
     </Route>
   )
 )

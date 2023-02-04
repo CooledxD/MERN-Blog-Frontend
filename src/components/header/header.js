@@ -3,16 +3,15 @@ import { Link, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../../redux/features/auth/authSlice.js";
-
 import styles from './header.module.css'
 
 export const Header = () => {
   const isAuth = useSelector((state) => Boolean(state.auth.token))
+  const { user } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
   const logoutHandler = () => {
     dispatch(logout())
-    
     window.localStorage.removeItem('token')
   }
 
@@ -42,6 +41,23 @@ export const Header = () => {
                   href="">Добавить пост</NavLink>
               </li>
             </ul>
+          )
+        }
+        {
+          isAuth && (
+            <Link to={'/profile'}>
+              {
+                user.avatar ?
+                  <img
+                    className={styles.avatar}
+                    src={`http://localhost:3000/${user.avatar}`}
+                    alt="avatar" /> :
+                  <img
+                    className={styles.avatar}
+                    src="../../assets/images/basicAvatar/basicAvatar.svg"
+                    alt="avatar" />
+              }
+            </Link>
           )
         }
         <div className={styles.navRight}>
