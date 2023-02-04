@@ -12,7 +12,7 @@ module.exports = {
     main: path.resolve(__dirname, 'src', 'index.js')
   },
 
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
 
   output: {
     publicPath: '/'
