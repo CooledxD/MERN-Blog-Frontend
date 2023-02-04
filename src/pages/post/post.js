@@ -31,7 +31,7 @@ export const Post = () => {
   const handelSubmit = () => {
     try {
       const postId = params.id
-      dispatch(createComment({ postId, comment }))
+      dispatch(createComment({ postId, comment, authorAvatar: user.avatar }))
       setComment('')
     } catch (error) {
       console.log(error)

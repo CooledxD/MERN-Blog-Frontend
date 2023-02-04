@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 
 import { removeComment } from "../../redux/features/comment/commentSlice.js";
+import styles from './commentItem.module.css'
 
 export const CommentItem = ({ cmt }) => {
   const date = new Date(Date.parse(cmt.createdAt)).toLocaleDateString()
@@ -23,7 +24,17 @@ export const CommentItem = ({ cmt }) => {
   return (
     <li>
       <article>
-        <img src="" alt="avatar" />
+        {
+          cmt.authorAvatar ? 
+            <img 
+              className={styles.avatar} 
+              src={`http://localhost:3000/${cmt.authorAvatar}`} 
+              alt="avatar" /> : 
+            <img 
+              className={styles.avatar} 
+              src="../../assets/images/basicAvatar/basicAvatar.svg" 
+              alt="avatar" />
+        }
         <div>
           <header>
             <span>{cmt.username}</span><time>{date}</time>
