@@ -39,7 +39,7 @@ export const EditPost = () => {
 
       updatedPost.append('title', title)
       updatedPost.append('text', text)
-      updatedPost.append('image', newImage)
+      updatedPost.append('image', newImage ? newImage : oldImage)
       updatedPost.append('id', params.id)
 
       dispatch(updatePost(updatedPost))

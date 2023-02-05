@@ -58,7 +58,7 @@ export const postSlice = createSlice({
     })
     .addCase(createPost.fulfilled, (state, action) => {
       state.loading = false
-      state.posts.push(action.payload)
+      state.posts.unshift(action.payload.newPost)
     })
     .addCase(createPost.rejected, (state) => {
       state.loading = false
@@ -81,7 +81,7 @@ export const postSlice = createSlice({
     })
     .addCase(removePost.fulfilled, (state, action) => {
       state.loading = false
-      state.posts = state.posts.filter(post => post._id !== action.payload._id)
+      state.posts = state.posts.filter(post => post._id !== action.meta.arg)
     })
     .addCase(removePost.rejected, (state) => {
       state.loading = false

@@ -47,10 +47,10 @@ export const Header = () => {
           isAuth && (
             <Link to={'/profile'}>
               {
-                user.avatar ?
+                user?.avatar ?
                   <img
                     className={styles.avatar}
-                    src={`http://localhost:3000/${user.avatar}`}
+                    src={`http://localhost:3000/${user?.avatar}`}
                     alt="avatar" /> :
                   <img
                     className={styles.avatar}
