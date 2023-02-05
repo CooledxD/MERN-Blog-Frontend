@@ -53,6 +53,16 @@ export const getMe = createAsyncThunk('auth/getMe', async () => {
   }
 })
 
+export const updateAvatar = createAsyncThunk('auth/updateAvatar', async (newAvatar) => {
+  try {
+    const { data } = await axios.put('user/avatar', newAvatar)
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -109,6 +119,20 @@ export const authSlice = createSlice({
       state.token = action.payload?.token
     })
     .addCase(getMe.rejected, (state, action) => {
+      state.status = action.payload.message
+      state.isLoading = false
+    })
+
+    // Update avatar
+    builder.addCase(updateAvatar.pending, (state) => {
+      state.isLoading = true
+      state.status = null
+    })
+    .addCase(updateAvatar.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.user.avatar = action.payload.avatar
+    })
+    .addCase(updateAvatar.rejected, (state, action) => {
       state.status = action.payload.message
       state.isLoading = false
     })
