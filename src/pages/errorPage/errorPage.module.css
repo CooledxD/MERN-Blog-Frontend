@@ -1,0 +1,10 @@
+.errorPage {
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: center;
+  height: 100%;
+}
+
+.errorPage i {
+  color: #818181;
+}

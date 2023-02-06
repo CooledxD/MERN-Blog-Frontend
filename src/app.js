@@ -10,6 +10,7 @@ import { Register } from './pages/register/register.js'
 import { Login } from './pages/login/login.js'
 import { EditPost } from './pages/editPost/editPost.js'
 import { Profile } from './pages/profile/profile.js'
+import { ErrorPage } from './pages/errorPage/errorPage.js'
 
 import { Layout } from './components/layout/layout.js';
 
@@ -19,7 +20,7 @@ import './index.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Layout />}>
+    <Route path='/' element={<Layout />} errorElement={<ErrorPage />} >
       <Route index element={<Home />} />
       <Route path='posts' element={<Posts />} />
       <Route path='post/add' element={<AddPost />} />
