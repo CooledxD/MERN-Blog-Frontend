@@ -90,6 +90,12 @@ export const Post = () => {
 
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
 
+  if (!post) {
+    return (
+      <p>Такого поста не существует.</p>
+    )
+  }
+
   return (
     <div className={styles.postWrapper}>
       <article>
