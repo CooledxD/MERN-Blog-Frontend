@@ -22,8 +22,9 @@ export const AddPost = () => {
       post.append('text', text)
       post.append('image', image)
 
-      dispatch(createPost(post))
-      navigate('/')
+      dispatch(createPost(post)).then(() => {
+        navigate('/posts')
+      })
     } catch (error) {
       console.log(error)
     }

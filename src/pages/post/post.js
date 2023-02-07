@@ -21,8 +21,9 @@ export const Post = () => {
 
   const removePostHandler = () => {
     try {
-      dispatch(removePost(params.id))
-      navigate('/posts')
+      dispatch(removePost(params.id)).then(() => {
+        navigate('/posts')
+      })
     } catch (error) {
       console.log(error)
     }

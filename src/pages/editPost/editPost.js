@@ -42,8 +42,9 @@ export const EditPost = () => {
       updatedPost.append('image', newImage ? newImage : oldImage)
       updatedPost.append('id', params.id)
 
-      dispatch(updatePost(updatedPost))
-      navigate(`/post/${params.id}`)
+      dispatch(updatePost(updatedPost)).then(() => {
+        navigate(`/post/${params.id}`)
+      })
     } catch (error) {
       console.log(error)
     }
