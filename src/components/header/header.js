@@ -7,7 +7,7 @@ import styles from './header.module.css'
 
 export const Header = () => {
   const isAuth = useSelector((state) => Boolean(state.auth.token))
-  const { user } = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const logoutHandler = () => {

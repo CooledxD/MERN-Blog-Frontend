@@ -17,6 +17,7 @@ import { Layout } from './components/layout/layout.js';
 import { getMe } from './redux/features/auth/authSlice.js';
 
 import './index.css'
+import { getUser } from './redux/features/user/userSlice.js';
 
 function App() {
   const dispatch = useDispatch()
@@ -29,15 +30,17 @@ function App() {
         <Route path='post/add' element={isAuth ? <AddPost /> : <Navigate to='/' />} />
         <Route path='post/:id' element={<Post />} />
         <Route path='post/:id/edit' element={isAuth ? <EditPost /> : <Navigate to='/' />} />
-        <Route path='register' element={<Register />} />
-        <Route path='login' element={<Login />} />
+        <Route path='register' element={isAuth ? <Navigate to='/' /> : <Register />} />
+        <Route path='login' element={isAuth ? <Navigate to='/' /> : <Login />} />
         <Route path='profile' element={isAuth ? <Profile /> : <Navigate to='/' />} />
       </Route>
     )
   )
 
   useEffect(() => {
-    dispatch(getMe())
+    dispatch(getMe()).then(() => {
+      dispatch(getUser())
+    })
   }, [dispatch])
 
   return (

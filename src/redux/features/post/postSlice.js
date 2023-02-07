@@ -4,6 +4,7 @@ import axios from "../../../utils/axios.js";
 const initialState = {
   posts: [],
   popularPosts: [],
+  userPosts: [],
   loading: false
 }
 
@@ -47,6 +48,16 @@ export const updatePost = createAsyncThunk('post/updatePost', async (updatePost)
   }
 })
 
+export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
+  try {
+    const { data } = await axios.get('/posts/user')
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 export const postSlice = createSlice({
   name: 'post',
   initialState,
@@ -59,6 +70,7 @@ export const postSlice = createSlice({
     .addCase(createPost.fulfilled, (state, action) => {
       state.loading = false
       state.posts.unshift(action.payload.newPost)
+      state.userPosts.unshift(action.payload.newPost)
     })
     .addCase(createPost.rejected, (state) => {
       state.loading = false
@@ -82,6 +94,7 @@ export const postSlice = createSlice({
     .addCase(removePost.fulfilled, (state, action) => {
       state.loading = false
       state.posts = state.posts.filter(post => post._id !== action.meta.arg)
+      state.userPosts = state.userPosts.filter(post => post._id !== action.meta.arg)
     })
     .addCase(removePost.rejected, (state) => {
       state.loading = false
@@ -91,12 +104,25 @@ export const postSlice = createSlice({
       state.loading = true
     })
     .addCase(updatePost.fulfilled, (state, action) => {
-      const index = state.posts.findIndex(post => post._id === action.payload._id)
+      const indexPosts = state.posts.findIndex(post => post._id === action.payload._id)
+      const indexUserPosts = state.posts.findIndex(post => post._id === action.payload._id)
       
       state.loading = false
-      state.posts[index] = action.payload
+      state.posts[indexPosts] = action.payload
+      state.userPosts[indexUserPosts] = action.payload
     })
     .addCase(updatePost.rejected, (state) => {
+      state.loading = false
+    })
+    // Get user posts
+    builder.addCase(getUserPosts.pending, (state) => {
+      state.loading = true
+    })
+    .addCase(getUserPosts.fulfilled, (state, action) => {
+      state.loading = false
+      state.userPosts = action.payload
+    })
+    .addCase(getUserPosts.rejected, (state) => {
       state.loading = false
     })
   }

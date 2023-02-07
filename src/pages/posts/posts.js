@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { PostItem } from "../../components/postItem/postItem.js";
-import axios from '../../utils/axios.js';
+import { getUserPosts } from "../../redux/features/post/postSlice.js";
 import styles from './posts.module.css'
 
 export const Posts = () => {
-  const [posts, setPosts] = useState([])
-
-  const fetchUserPosts = async () => {
-    try {
-      const { data } = await axios.get('/posts/user')
-      setPosts(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const posts = useSelector(state => state.post.userPosts)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    fetchUserPosts()
-  }, [])
+    dispatch(getUserPosts())
+  }, [dispatch])
 
   if (!posts.length) {
     return (

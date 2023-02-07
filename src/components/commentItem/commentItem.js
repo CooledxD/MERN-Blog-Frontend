@@ -7,7 +7,7 @@ import styles from './commentItem.module.css'
 
 export const CommentItem = ({ cmt }) => {
   const date = new Date(Date.parse(cmt.createdAt)).toLocaleDateString()
-  const { user } = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const removeCommentHandler = () => {

@@ -12,7 +12,7 @@ import styles from './post.module.css'
 export const Post = () => {
   const params = useParams()
   const [post, setPost] = useState('')
-  const { user } = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [comment, setComment] = useState('')
@@ -32,7 +32,9 @@ export const Post = () => {
   const handelSubmit = () => {
     try {
       const postId = params.id
+
       dispatch(createComment({ postId, comment, authorAvatar: user.avatar }))
+      
       setComment('')
     } catch (error) {
       console.log(error)

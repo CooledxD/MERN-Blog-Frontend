@@ -3,11 +3,11 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateAvatar } from '../../redux/features/auth/authSlice.js'
+import { updateAvatar } from '../../redux/features/user/userSlice.js'
 import styles from './profile.module.css'
 
 export const Profile = () => {
-  const { user } = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const [userAvatar, setUserAvatar] = useState('')
 

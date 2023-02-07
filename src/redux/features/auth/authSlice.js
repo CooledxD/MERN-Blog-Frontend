@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../../utils/axios.js";
 
 const initialState = {
-  user: null,
   token: null,
   isLoading: false,
   status: null
@@ -53,22 +52,11 @@ export const getMe = createAsyncThunk('auth/getMe', async () => {
   }
 })
 
-export const updateAvatar = createAsyncThunk('auth/updateAvatar', async (newAvatar) => {
-  try {
-    const { data } = await axios.put('user/avatar', newAvatar)
-
-    return data
-  } catch (error) {
-    console.log(error)
-  }
-})
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout: (state) => {
-      state.user = null
       state.token = null
       state.isLoading = false
       state.status = null
@@ -83,7 +71,6 @@ export const authSlice = createSlice({
     .addCase(registerUser.fulfilled, (state, action) => {
       state.isLoading = false
       state.status = action.payload.message
-      state.user = action.payload.user
       state.token = action.payload.token
     })
     .addCase(registerUser.rejected, (state, action) => {
@@ -99,7 +86,6 @@ export const authSlice = createSlice({
     .addCase(loginUser.fulfilled, (state, action) => {
       state.isLoading = false
       state.status = action.payload.message
-      state.user = action.payload.user
       state.token = action.payload.token
     })
     .addCase(loginUser.rejected, (state, action) => {
@@ -115,24 +101,9 @@ export const authSlice = createSlice({
     .addCase(getMe.fulfilled, (state, action) => {
       state.isLoading = false
       state.status = null
-      state.user = action.payload?.user
       state.token = action.payload?.token
     })
     .addCase(getMe.rejected, (state, action) => {
-      state.status = action.payload.message
-      state.isLoading = false
-    })
-
-    // Update avatar
-    builder.addCase(updateAvatar.pending, (state) => {
-      state.isLoading = true
-      state.status = null
-    })
-    .addCase(updateAvatar.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.user.avatar = action.payload.avatar
-    })
-    .addCase(updateAvatar.rejected, (state, action) => {
       state.status = action.payload.message
       state.isLoading = false
     })
