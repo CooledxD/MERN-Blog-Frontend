@@ -5,6 +5,8 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
 
 import { createPost } from "../../redux/features/post/postSlice.js";
+import { addPostUserState } from "../../redux/features/user/userSlice.js";
+
 import styles from './addPost.module.css'
 
 export const AddPost = () => {
@@ -22,7 +24,8 @@ export const AddPost = () => {
       post.append('text', text)
       post.append('image', image)
 
-      dispatch(createPost(post)).then(() => {
+      dispatch(createPost(post)).then((res) => {
+        dispatch(addPostUserState(res.payload.newPost._id))
         navigate('/posts')
       })
     } catch (error) {

@@ -30,7 +30,24 @@ export const updateAvatar = createAsyncThunk('user/updateAvatar', async (newAvat
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addPostUserState: (state, action) => {
+      state.user.posts.push(action.payload)
+    },
+    removePostUserState: (state, action) => {
+      const index = state.user.posts.findIndex(post => post === action.payload)
+
+      state.user.posts.splice(index, 1)
+    },
+    addLikeUserState: (state, action) => {
+      state.user.likes.push(action.payload)
+    },
+    removeLikeUserState: (state, action) => {
+      const index = state.user.likes.findIndex(like => like === action.payload)
+
+      state.user.likes.splice(index, 1)
+    }
+  },
   extraReducers: (builder) => {
     // Get user info
     builder.addCase(getUser.pending, (state) => {
@@ -60,5 +77,7 @@ export const userSlice = createSlice({
     })
   }
 })
+
+export const { addPostUserState, removePostUserState, addLikeUserState, removeLikeUserState } = userSlice.actions
 
 export default userSlice.reducer

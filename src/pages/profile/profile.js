@@ -63,7 +63,7 @@ export const Profile = () => {
       </div>
       <div>
         <span>Likes:</span>
-        <span></span>
+        <span>{user.likes.length}</span>
       </div>
     </div>
   )

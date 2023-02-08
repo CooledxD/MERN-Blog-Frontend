@@ -7,6 +7,8 @@ import { CommentItem } from "../../components/commentItem/commentItem.js";
 import { createComment, getPostComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
+import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
+
 import styles from './post.module.css'
 
 export const Post = () => {
@@ -22,6 +24,7 @@ export const Post = () => {
   const removePostHandler = () => {
     try {
       dispatch(removePost(params.id)).then(() => {
+        dispatch(removePostUserState(params.id))
         navigate('/posts')
       })
     } catch (error) {
@@ -71,6 +74,8 @@ export const Post = () => {
           }
         })
 
+        dispatch(removeLikeUserState(params.id))
+
         likes.splice(likes.indexOf(user.username), 1)
 
         setPost(Object.assign(copyPost, { likes: [...likes] }))
@@ -78,13 +83,15 @@ export const Post = () => {
         await axios.put(`/posts/likes/${params.id}`, {
           username: user.username
         })
+
+        dispatch(addLikeUserState(params.id))
   
         setPost(Object.assign(copyPost, { likes: [...copyPost.likes, user.username] }))
       }
     } catch (error) {
       console.log(error)
     }
-  }, [params.id, user?.username, post])
+  }, [params.id, user?.username, post, dispatch])
 
   useEffect(() => {
     fetchPost()
