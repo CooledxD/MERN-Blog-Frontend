@@ -50,7 +50,7 @@ export const Header = () => {
                 user?.avatar ?
                   <img
                     className={styles.avatar}
-                    src={`http://localhost:3000/${user?.avatar}`}
+                    src={`${process.env.HOST}/${user?.avatar}`}
                     alt="avatar" /> :
                   <img
                     className={styles.avatar}

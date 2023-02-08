@@ -28,7 +28,7 @@ export const CommentItem = ({ cmt }) => {
           cmt.authorAvatar ? 
             <img 
               className={styles.avatar} 
-              src={`http://localhost:3000/${cmt.authorAvatar}`} 
+              src={`${process.env.HOST}/${cmt.authorAvatar}`} 
               alt="avatar" /> : 
             <img 
               className={styles.avatar} 

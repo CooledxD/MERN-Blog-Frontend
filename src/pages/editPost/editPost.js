@@ -65,7 +65,7 @@ export const EditPost = () => {
         </label>
         {
           oldImage && (
-            <img className={styles.formAddPost__image} src={`http://localhost:3000/${oldImage}`} alt="post image" />
+            <img className={styles.formAddPost__image} src={`${process.env.HOST}/${oldImage}`} alt="post image" />
           )
         }
         {

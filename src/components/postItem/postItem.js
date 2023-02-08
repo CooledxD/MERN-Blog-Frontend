@@ -13,7 +13,7 @@ export const PostItem = ({ post }) => {
       <li>
         <article>
           {
-            post.image && <img className={styles.postItem__image} src={`http://localhost:3000/${post.image}`} alt="image post" />
+            post.image && <img className={styles.postItem__image} src={`${process.env.HOST}/${post.image}`} alt="image post" />
           }
           <header className={styles.postItem__header}>
             <span>{ post.username }</span>

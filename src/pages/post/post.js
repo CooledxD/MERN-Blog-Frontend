@@ -116,7 +116,7 @@ export const Post = () => {
           <time>{date}</time>
         </div>
         {
-          post.image && <img className={styles.post__image} src={`http://localhost:3000/${post.image}`} alt="image post" />
+          post.image && <img className={styles.post__image} src={`${process.env.HOST}/${post.image}`} alt="image post" />
         }
         <div>
           { parse(String(post.text)) }
