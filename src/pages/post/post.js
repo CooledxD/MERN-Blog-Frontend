@@ -25,6 +25,7 @@ export const Post = () => {
     try {
       dispatch(removePost(params.id)).then(() => {
         dispatch(removePostUserState(params.id))
+        dispatch(removeLikeUserState(params.id))
         navigate('/posts')
       })
     } catch (error) {
