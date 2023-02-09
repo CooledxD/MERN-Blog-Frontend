@@ -1,13 +1,15 @@
 import axios from 'axios'
 
-const instance = axios.create({
+// Adding a base url to a request
+const preSetupAxios = axios.create({
   baseURL: process.env.HOST
 })
 
-instance.interceptors.request.use(config => {
+// Adding a user token to the request
+preSetupAxios.interceptors.request.use(config => {
   config.headers.Authorization = window.localStorage.getItem('token')
 
   return config
 })
 
-export default instance
+export default preSetupAxios

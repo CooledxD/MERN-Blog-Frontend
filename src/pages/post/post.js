@@ -9,18 +9,28 @@ import { removePost } from "../../redux/features/post/postSlice.js";
 import axios from '../../utils/axios.js'
 import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
 
+// Styles
 import styles from './post.module.css'
 
 export const Post = () => {
+  // Hooks
   const params = useParams()
-  const [post, setPost] = useState('')
-  const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  // State
+  const [post, setPost] = useState('')
   const [comment, setComment] = useState('')
+
+  // Store
+  const { user } = useSelector(state => state.user)
   const { comments } = useSelector(state => state.comment)
   const isAuth = useSelector((state) => Boolean(state.auth.token))
 
+  // Date Conversion
+  const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
+
+  // Remove post
   const removePostHandler = () => {
     try {
       dispatch(removePost(params.id)).then(() => {
@@ -33,6 +43,7 @@ export const Post = () => {
     }
   }
 
+  // Create post
   const handelSubmit = () => {
     try {
       const postId = params.id
@@ -45,6 +56,7 @@ export const Post = () => {
     }
   }
 
+  // Getting comments on a post
   const fetchComments = useCallback(async () => {
     try {
       dispatch(getPostComments(params.id))
@@ -53,20 +65,24 @@ export const Post = () => {
     }
   }, [dispatch, params.id])
 
+  // Getting post
   const fetchPost = useCallback(async () => {
     try {
       const { data } = await axios.get(`/posts/${params.id}`)
+
       setPost(data)
     } catch (error) {
       console.log(error)
     }
   }, [params.id])
 
+  // Installing and deleting likes to a post
   const addOrRemoveUserLikePost = useCallback(async () => {
     try {
       const likes = post.likes
       const copyPost = {...post}
 
+      // Deleting a like
       if (post.likes.includes(user.username)) {
 
         await axios.delete(`/posts/likes/${params.id}`, {
@@ -81,6 +97,7 @@ export const Post = () => {
 
         setPost(Object.assign(copyPost, { likes: [...likes] }))
       } else {
+      // Installing a like
         await axios.put(`/posts/likes/${params.id}`, {
           username: user.username
         })
@@ -96,10 +113,9 @@ export const Post = () => {
 
   useEffect(() => {
     fetchPost()
+
     fetchComments()
   }, [fetchPost, fetchComments])
-
-  const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
 
   if (!post) {
     return (

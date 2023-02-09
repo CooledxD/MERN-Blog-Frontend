@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import axios from "../../../utils/axios.js";
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
   loading: false
 }
 
+// Create post
 export const createPost = createAsyncThunk('post/createPost', async (params) => {
   try {
     const { data } = await axios.post('/posts', params)
@@ -18,6 +20,7 @@ export const createPost = createAsyncThunk('post/createPost', async (params) => 
   }
 })
 
+// Getting all posts
 export const getAllPosts = createAsyncThunk('post/getAllPosts', async () => {
   try {
     const { data } = await axios.get('/posts')
@@ -28,6 +31,7 @@ export const getAllPosts = createAsyncThunk('post/getAllPosts', async () => {
   }
 })
 
+// Remove post
 export const removePost = createAsyncThunk('post/removePost', async (id) => {
   try {
     const { data } = await axios.delete(`posts/${id}`, id)
@@ -38,6 +42,7 @@ export const removePost = createAsyncThunk('post/removePost', async (id) => {
   }
 })
 
+// Update post
 export const updatePost = createAsyncThunk('post/updatePost', async (updatePost) => {
   try {
     const { data } = await axios.put(`posts/${updatePost.id}`, updatePost)
@@ -48,6 +53,7 @@ export const updatePost = createAsyncThunk('post/updatePost', async (updatePost)
   }
 })
 
+// Getting user posts
 export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
   try {
     const { data } = await axios.get('/posts/user')
@@ -75,7 +81,8 @@ export const postSlice = createSlice({
     .addCase(createPost.rejected, (state) => {
       state.loading = false
     })
-    // Get All Posts
+
+    // Getting all posts
     builder.addCase(getAllPosts.pending, (state) => {
       state.loading = true
     })
@@ -87,6 +94,7 @@ export const postSlice = createSlice({
     .addCase(getAllPosts.rejected, (state) => {
       state.loading = false
     })
+
     // Remove post
     builder.addCase(removePost.pending, (state) => {
       state.loading = true
@@ -99,13 +107,16 @@ export const postSlice = createSlice({
     .addCase(removePost.rejected, (state) => {
       state.loading = false
     })
+
     // Update post
     builder.addCase(updatePost.pending, (state) => {
       state.loading = true
     })
     .addCase(updatePost.fulfilled, (state, action) => {
+      // Getting the index of the target post in posts
       const indexPosts = state.posts.findIndex(post => post._id === action.payload._id)
-      const indexUserPosts = state.posts.findIndex(post => post._id === action.payload._id)
+      // Getting the index of the target post in userPosts
+      const indexUserPosts = state.userPosts.findIndex(post => post._id === action.payload._id)
       
       state.loading = false
       state.posts[indexPosts] = action.payload
@@ -114,7 +125,8 @@ export const postSlice = createSlice({
     .addCase(updatePost.rejected, (state) => {
       state.loading = false
     })
-    // Get user posts
+
+    // Getting user posts
     builder.addCase(getUserPosts.pending, (state) => {
       state.loading = true
     })

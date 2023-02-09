@@ -1,19 +1,27 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+// Components
 import { PostItem } from "../../components/postItem/postItem.js";
+
+// Store
 import { getUserPosts } from "../../redux/features/post/postSlice.js";
+
+// Styles
 import styles from './posts.module.css'
 
 export const Posts = () => {
-  const posts = useSelector(state => state.post.userPosts)
+  // Hooks
   const dispatch = useDispatch()
+
+  // Store
+  const { userPosts } = useSelector(state => state.post)
 
   useEffect(() => {
     dispatch(getUserPosts())
   }, [dispatch])
 
-  if (!posts.length) {
+  if (!userPosts.length) {
     return (
       <p>Постов не существует.</p>
     )
@@ -22,7 +30,7 @@ export const Posts = () => {
   return (
     <ul className={styles.homePosts}>
       {
-        posts?.map((post, index) => (
+        userPosts?.map((post, index) => (
           <PostItem key={index} post={post} />
         ))
       }

@@ -2,14 +2,21 @@ import React from "react";
 import { Link, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
+// Store
 import { logout } from "../../redux/features/auth/authSlice.js";
+
+// Styles
 import styles from './header.module.css'
 
 export const Header = () => {
-  const isAuth = useSelector((state) => Boolean(state.auth.token))
-  const { user } = useSelector(state => state.user)
+  // Hooks
   const dispatch = useDispatch()
 
+  // Store
+  const isAuth = useSelector((state) => Boolean(state.auth.token))
+  const { user } = useSelector(state => state.user)
+
+  // Logout
   const logoutHandler = () => {
     dispatch(logout())
     window.localStorage.removeItem('token')
@@ -18,22 +25,32 @@ export const Header = () => {
   return (
     <header>
       <nav className={styles.navbar}>
+
+        {/* Logo */}
         <NavLink to={'/'} className="siteName" href="">hubblog</NavLink>
+
+        {/* Menu */}
         {
           isAuth && (
             <ul className={styles.nav}>
+
+              {/* Main page */}
               <li>
                 <NavLink
                   to={'/'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">Главная</NavLink>
               </li>
+
+              {/* User posts page */}
               <li>
                 <NavLink
                   to={'/posts'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">Мои посты</NavLink>
               </li>
+
+              {/* Add post page */}
               <li>
                 <NavLink
                   to={'/post/add'}
@@ -43,9 +60,13 @@ export const Header = () => {
             </ul>
           )
         }
+
+        {/* Profile page */}
         {
           isAuth && (
             <Link to={'/profile'}>
+
+              {/* Avatar */}
               {
                 user?.avatar ?
                   <img
@@ -60,18 +81,12 @@ export const Header = () => {
             </Link>
           )
         }
+
+        {/* Login and logout */}
         <div className={styles.navRight}>
-          {
-            isAuth ? (
-              <Link to={'/login'} href="">
-                <span className={styles.btnHeader} onClick={logoutHandler}>Выйти</span>
-              </Link>
-            ) : (
-              <Link to={'/login'} href="">
-                <span className={styles.btnHeader}>Войти</span>
-              </Link>
-            )
-          }
+          <Link to={'/login'} href="">
+            <span className={styles.btnHeader} onClick={isAuth ? logoutHandler : undefined}>{ isAuth ? 'Выйти' : 'Войти' }</span>
+          </Link>
         </div>
       </nav>
     </header>

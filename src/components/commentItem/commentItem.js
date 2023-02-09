@@ -2,14 +2,23 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 
+// Store
 import { removeComment } from "../../redux/features/comment/commentSlice.js";
+
+// Styles
 import styles from './commentItem.module.css'
 
 export const CommentItem = ({ cmt }) => {
-  const date = new Date(Date.parse(cmt.createdAt)).toLocaleDateString()
-  const { user } = useSelector(state => state.user)
+  // Hooks
   const dispatch = useDispatch()
 
+  // Store
+  const { user } = useSelector(state => state.user)
+
+  // Date Conversion
+  const date = new Date(Date.parse(cmt.createdAt)).toLocaleDateString()
+
+  // Remove comment
   const removeCommentHandler = () => {
     try {
       dispatch(removeComment({
@@ -24,6 +33,8 @@ export const CommentItem = ({ cmt }) => {
   return (
     <li>
       <article>
+
+        {/* Avatar */}
         {
           cmt.authorAvatar ? 
             <img 
@@ -35,13 +46,20 @@ export const CommentItem = ({ cmt }) => {
               src="../../assets/images/basicAvatar/basicAvatar.svg" 
               alt="avatar" />
         }
+
         <div>
           <header>
+
+            {/* Username */}
             <span>{cmt.username}</span><time>{date}</time>
           </header>
+
+          {/* Text */}
           <p>{cmt.comment}</p>
         </div>
       </article>
+
+      {/* Remove comment */}
       {
         user?.username === cmt.username && (
           <button onClick={removeCommentHandler}>

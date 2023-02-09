@@ -35,7 +35,7 @@ export const userSlice = createSlice({
       state.user.posts.push(action.payload)
     },
     removePostUserState: (state, action) => {
-      const index = state.user.posts.findIndex(post => post === action.payload)
+      const index = state.user.posts.findIndex(post => post === action.payload) // Getting the index of the target post
 
       state.user.posts.splice(index, 1)
     },
@@ -43,7 +43,7 @@ export const userSlice = createSlice({
       state.user.likes.push(action.payload)
     },
     removeLikeUserState: (state, action) => {
-      const index = state.user.likes.findIndex(like => like === action.payload)
+      const index = state.user.likes.findIndex(like => like === action.payload) // Getting the index of the target post
 
       state.user.likes.splice(index, 1)
     }
