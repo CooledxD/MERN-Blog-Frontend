@@ -22,7 +22,9 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true
+    },
     static: {
       directory: path.resolve(__dirname, 'src'),
       watch: true,

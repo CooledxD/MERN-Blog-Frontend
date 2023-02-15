@@ -46,6 +46,9 @@ export const userSlice = createSlice({
       const index = state.user.likes.findIndex(like => like === action.payload) // Getting the index of the target post
 
       state.user.likes.splice(index, 1)
+    },
+    logout: (state) => {
+      state.user = null
     }
   },
   extraReducers: (builder) => {
@@ -78,6 +81,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const { addPostUserState, removePostUserState, addLikeUserState, removeLikeUserState } = userSlice.actions
+export const { addPostUserState, removePostUserState, addLikeUserState, removeLikeUserState, logout } = userSlice.actions
 
 export default userSlice.reducer

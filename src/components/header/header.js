@@ -3,7 +3,9 @@ import { Link, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
-import { logout } from "../../redux/features/auth/authSlice.js";
+import { logoutUser } from "../../redux/features/auth/authSlice.js";
+import { logout } from "../../redux/features/user/userSlice.js";
+import { logoutUserPost } from "../../redux/features/post/postSlice.js";
 
 // Styles
 import styles from './header.module.css'
@@ -18,8 +20,9 @@ export const Header = () => {
 
   // Logout
   const logoutHandler = () => {
+    dispatch(logoutUser())
     dispatch(logout())
-    window.localStorage.removeItem('token')
+    dispatch(logoutUserPost())
   }
 
   return (
@@ -84,8 +87,8 @@ export const Header = () => {
 
         {/* Login and logout */}
         <div className={styles.navRight}>
-          <Link to={'/login'} href="">
-            <span className={styles.btnHeader} onClick={isAuth ? logoutHandler : undefined}>{ isAuth ? 'Выйти' : 'Войти' }</span>
+          <Link to={'auth/login'} href="">
+            <span className={styles.btnHeader} onClick={isAuth ? logoutHandler : undefined}>{ isAuth ? 'Logout' : 'Login' }</span>
           </Link>
         </div>
       </nav>

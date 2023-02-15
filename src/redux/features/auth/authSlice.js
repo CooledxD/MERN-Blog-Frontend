@@ -8,113 +8,67 @@ const initialState = {
   status: null
 }
 
-// Register
-export const registerUser = createAsyncThunk('auth/registerUser', async ({ username, password, email }) => {
+// Renew access token
+export const renewAccessToken = createAsyncThunk('auth/renewAccessToken', async () => {
   try {
-    const { data } = await axios.post('/auth/register', {
-      username,
-      password,
-      email
-    })
-
-    if (data.token) {
-      window.localStorage.setItem('token', data.token)
-    }
+    const { data } = await axios.post('/auth/renew-access-token')
 
     return data
   } catch (error) {
     console.log(error)
+
+    return error.response.data.message
   }
 })
 
-// Login
-export const loginUser = createAsyncThunk('auth/loginUser', async ({ username, password }) => {
+// Logout
+export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
   try {
-    const { data } = await axios.post('/auth/login', {
-      username,
-      password
-    })
-
-    if (data.token) {
-      window.localStorage.setItem('token', data.token)
-    }
+    const { data } = axios.get('auth/logout')
 
     return data
   } catch (error) {
     console.log(error)
-  }
-})
 
-// Get me
-export const getMe = createAsyncThunk('auth/getMe', async () => {
-  try {
-    const { data } = await axios.get('/auth/me')
-
-    return data
-  } catch (error) {
-    console.log(error)
+    return error.response.data.message
   }
 })
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    // Logout
-    logout: (state) => {
-      state.token = null
-      state.isLoading = false
-      state.status = null
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    // Register
-    builder.addCase(registerUser.pending, (state) => {
+    // Renew access token
+    builder.addCase(renewAccessToken.pending, (state) => {
       state.isLoading = true
       state.status = null
     })
-    .addCase(registerUser.fulfilled, (state, action) => {
+    .addCase(renewAccessToken.fulfilled, (state, action) => {
       state.isLoading = false
-      state.status = action.payload.message
-      state.token = action.payload.token
+      state.status = null
+      state.token = action.payload.accessToken
     })
-    .addCase(registerUser.rejected, (state, action) => {
+    .addCase(renewAccessToken.rejected, (state, action) => {
       state.status = action.payload.message
       state.isLoading = false
     })
 
-    // Login
-    builder.addCase(loginUser.pending, (state) => {
+    // Logout
+    builder.addCase(logoutUser.pending, (state) => {
       state.isLoading = true
       state.status = null
     })
-    .addCase(loginUser.fulfilled, (state, action) => {
-      state.isLoading = false
-      state.status = action.payload.message
-      state.token = action.payload.token
-    })
-    .addCase(loginUser.rejected, (state, action) => {
-      state.status = action.payload.message
-      state.isLoading = false
-    })
-
-    // Get me
-    builder.addCase(getMe.pending, (state) => {
-      state.isLoading = true
-      state.status = null
-    })
-    .addCase(getMe.fulfilled, (state, action) => {
+    .addCase(logoutUser.fulfilled, (state) => {
       state.isLoading = false
       state.status = null
-      state.token = action.payload?.token
+      state.token = null
     })
-    .addCase(getMe.rejected, (state, action) => {
+    .addCase(logoutUser.rejected, (state, action) => {
       state.status = action.payload.message
       state.isLoading = false
     })
   }
 })
-
-export const { logout } = authSlice.actions
 
 export default authSlice.reducer

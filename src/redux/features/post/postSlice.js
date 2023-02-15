@@ -67,7 +67,11 @@ export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
 export const postSlice = createSlice({
   name: 'post',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUserPost: (state) => {
+      state.userPosts = []
+    }
+  },
   extraReducers: (builder) => {
     // Create Post
     builder.addCase(createPost.pending, (state) => {
@@ -139,5 +143,7 @@ export const postSlice = createSlice({
     })
   }
 })
+
+export const { logoutUserPost } = postSlice.actions
 
 export default postSlice.reducer

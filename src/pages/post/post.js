@@ -164,7 +164,8 @@ export const Post = () => {
         </footer>
       </article>
       <aside>
-        <form onSubmit={event => event.preventDefault()}>
+        {isAuth &&
+          <form onSubmit={event => event.preventDefault()}>
           <input 
             value={comment} 
             onChange={event => setComment(event.target.value)} 
@@ -172,6 +173,7 @@ export const Post = () => {
             placeholder="Comment" />
           <button onClick={handelSubmit} type="submit">Отправить</button>
         </form>
+        }
         <ul>
           {
             comments?.map((cmt) => (

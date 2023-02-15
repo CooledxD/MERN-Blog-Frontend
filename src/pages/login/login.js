@@ -3,60 +3,96 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 // Store
-import { loginUser } from "../../redux/features/auth/authSlice.js";
-import { getUser } from "../../redux/features/user/userSlice.js";
+// import { getUser } from "../../redux/features/user/userSlice.js";
+import { renewAccessToken } from "../../redux/features/auth/authSlice.js";
+
+// Utils
+import { loginUser } from "../../utils/api.js";
+
+// Components
+import { SuccessMessage } from "../../components/successMessage/successMessage.js";
+import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
 
 // Styles
 import styles from './login.module.css'
+import { getUser } from "../../redux/features/user/userSlice.js";
 
 export const Login = () => {
   // Hooks
   const dispatch = useDispatch()
 
   // State
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    success: '',
+    error: ''
+  })
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value
+    })
+  }
 
   // Login
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
     try {
-      dispatch(loginUser({username, password})).
-        then(() => {
-          dispatch(getUser())
-        })
+      event.preventDefault()
+
+      await loginUser({
+        username: formData.username,
+        password: formData.password
+      })
+
+      dispatch(renewAccessToken()).then(() => {
+        dispatch(getUser())
+      })
     } catch (error) {
       console.log(error)
+
+      setFormData({
+        ...formData,
+        error,
+        success: ''
+      })
     }
   }
 
   return (
     <div className={styles.formWrapper}>
-      <form className={styles.formAuth} onSubmit={event => event.preventDefault()}>
-        <h1>Авторизация</h1>
+      <form className={styles.formAuth} onSubmit={handleSubmit}>
+        <h1>Authorization</h1>
+
+        {formData.success && <SuccessMessage message={formData.success} />}
+        {formData.error && <ErrorMessage message={formData.error} />}
 
         {/* Username */}
         <input 
           className={styles.formAuth__input} 
-          value={username} 
-          onChange={(event) => setUsername(event.target.value)}
+          name='username'
+          value={formData.username} 
+          onChange={handleChange}
           type="text" 
-          placeholder="Username" />
+          placeholder="Enter username" />
 
         {/* Password */}
         <input 
           className={styles.formAuth__input} 
-          value={password} 
-          onChange={(event) => setPassword(event.target.value)}
+          name='password'
+          value={formData.password} 
+          onChange={handleChange}
           type="password" 
-          placeholder="Password" />
+          placeholder="Enter password" />
 
         <div className={styles.formAuth__buttonWrapper}>
 
           {/* Login */}
-          <button onClick={handleSubmit} type="submit">Войти</button>
+          <button type="submit">Login</button>
 
           {/* Go to the registration page */}
-          <Link to='/register'>Нет аккаунта?</Link>
+          <Link to='/auth/register'>No account?</Link>
         </div>
       </form>
     </div>

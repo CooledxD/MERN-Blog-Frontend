@@ -12,16 +12,18 @@ import { Login } from './pages/login/login.js'
 import { EditPost } from './pages/editPost/editPost.js'
 import { Profile } from './pages/profile/profile.js'
 import { ErrorPage } from './pages/errorPage/errorPage.js'
+import { AccountActivation } from './pages/accountActivation/accountActivation.js';
 
 // Components
 import { Layout } from './components/layout/layout.js';
 
 // Store
-import { getMe } from './redux/features/auth/authSlice.js';
-import { getUser } from './redux/features/user/userSlice.js';
+import { renewAccessToken } from './redux/features/auth/authSlice.js';
+// import { getUser } from './redux/features/user/userSlice.js';
 
 // Styles
 import './index.css'
+import { getUser } from './redux/features/user/userSlice.js';
 
 function App() {
   const dispatch = useDispatch()
@@ -34,15 +36,16 @@ function App() {
         <Route path='post/add' element={isAuth ? <AddPost /> : <Navigate to='/' />} />
         <Route path='post/:id' element={<Post />} />
         <Route path='post/:id/edit' element={isAuth ? <EditPost /> : <Navigate to='/' />} />
-        <Route path='register' element={isAuth ? <Navigate to='/' /> : <Register />} />
-        <Route path='login' element={isAuth ? <Navigate to='/' /> : <Login />} />
+        <Route path='auth/register' element={isAuth ? <Navigate to='/' /> : <Register />} />
+        <Route path='auth/login' element={isAuth ? <Navigate to='/' /> : <Login />} />
+        <Route path='auth/activate-account/:activationToken' element={isAuth ? <Navigate to='/' /> : <AccountActivation />} />
         <Route path='profile' element={isAuth ? <Profile /> : <Navigate to='/' />} />
       </Route>
     )
   )
 
   useEffect(() => {
-    dispatch(getMe()).then(() => {
+    dispatch(renewAccessToken()).then(() => {
       dispatch(getUser())
     })
   }, [dispatch])

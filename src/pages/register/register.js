@@ -1,70 +1,123 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-// Store
-import { registerUser } from "../../redux/features/auth/authSlice.js";
-import { getUser } from "../../redux/features/user/userSlice.js";
+// Utils
+import { registerUser } from "../../utils/api.js";
+
+// Components
+import { SuccessMessage } from "../../components/successMessage/successMessage.js";
+import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
 
 // Styles
 import styles from './register.module.css'
 
 export const Register = () => {
-  // Hooks
-  const dispatch = useDispatch()
-
   // State
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    email: '',
+    success: '',
+    error: ''
+  })
+
+  const handleChange = (event) => {
+    setFormData({ 
+      ...formData, 
+      [event.target.name]: event.target.value 
+    })
+  }
 
   // Registration
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
     try {
-      dispatch(registerUser({username, password, email})).
-        then(() => { 
-          dispatch(getUser()) 
+      event.preventDefault()
+
+      if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+        return setFormData({
+          ...formData,
+          error: 'Please fill in all fields',
+          success: ''
         })
+      }
+
+      const data = await registerUser({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      })
+
+      setFormData({
+        ...formData,
+        error: '',
+        success: data.message
+      })
     } catch (error) {
       console.log(error)
+
+      setFormData({
+        ...formData,
+        error,
+        success: ''
+      })
     }
   }
 
   return (
     <div className={styles.formWrapper}>
-      <form className={styles.formAuth} onSubmit={event => event.preventDefault()}>
-        <h1>Регистрация</h1>
+      <form className={styles.formAuth} onSubmit={handleSubmit}>
+        <h1>Registration</h1>
+
+        {formData.success && <SuccessMessage message={formData.success} />}
+        {formData.error && <ErrorMessage message={formData.error} />}
 
         {/* Username */}
         <input 
           className={styles.formAuth__input} 
-          value={username} 
-          onChange={(event) => setUsername(event.target.value)}
+          value={formData.username} 
+          name='username'
+          onChange={handleChange}
           type="text" 
-          placeholder="Username" />
+          placeholder="Enter username" 
+        />
 
         {/* Email */}
         <input 
           className={styles.formAuth__input} 
-          value={email} 
-          onChange={(event) => setEmail(event.target.value)}
+          name="email"
+          value={formData.email} 
+          onChange={handleChange}
           type="email" 
-          placeholder="Email" />
-        
+          placeholder="Enter email address" 
+        />
+
         {/* Password */}
         <input 
           className={styles.formAuth__input} 
-          value={password} 
-          onChange={(event) => setPassword(event.target.value)}
+          name='password'
+          value={formData.password} 
+          onChange={handleChange}
           type="password" 
-          placeholder="Password" />
+          placeholder="Enter password" 
+        />
+
+        {/* Confirm password */}
+        <input 
+          className={styles.formAuth__input} 
+          name='confirmPassword'
+          value={formData.confirmPassword} 
+          onChange={handleChange}
+          type="password" 
+          placeholder="Enter password again" 
+        />
 
         <div className={styles.formAuth__buttonWrapper}>
           {/* Confirmation of the entered data */}
-          <button onClick={handleSubmit} type="submit">Подтвердить</button>
+          <button type="submit">Confirm</button>
 
           {/* Going to the login page */}
-          <Link to='/login'>Уже зарегестрированы?</Link>
+          <Link to='/auth/login'>Already registered?</Link>
         </div>
       </form>
     </div>
