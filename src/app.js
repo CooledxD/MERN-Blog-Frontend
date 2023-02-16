@@ -19,11 +19,10 @@ import { Layout } from './components/layout/layout.js';
 
 // Store
 import { renewAccessToken } from './redux/features/auth/authSlice.js';
-// import { getUser } from './redux/features/user/userSlice.js';
+import { getUser } from './redux/features/user/userSlice.js';
 
 // Styles
 import './index.css'
-import { getUser } from './redux/features/user/userSlice.js';
 
 function App() {
   const dispatch = useDispatch()

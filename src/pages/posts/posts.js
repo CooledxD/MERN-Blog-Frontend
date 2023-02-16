@@ -23,7 +23,7 @@ export const Posts = () => {
 
   if (!userPosts.length) {
     return (
-      <p>Постов не существует.</p>
+      <p>There are no posts</p>
     )
   }
 

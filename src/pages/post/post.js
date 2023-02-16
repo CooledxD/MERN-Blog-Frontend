@@ -119,7 +119,7 @@ export const Post = () => {
 
   if (!post) {
     return (
-      <p>Такого поста не существует.</p>
+      <p>There is no such post</p>
     )
   }
 
@@ -171,7 +171,7 @@ export const Post = () => {
             onChange={event => setComment(event.target.value)} 
             type="text" 
             placeholder="Comment" />
-          <button onClick={handelSubmit} type="submit">Отправить</button>
+          <button onClick={handelSubmit} type="submit">Send</button>
         </form>
         }
         <ul>

@@ -66,7 +66,7 @@ export const EditPost = () => {
 
         {/* Update image */}
         <label className={styles.fromAddPost__input}>
-          Прикрепить изображение
+          Attach an image
           <input
             onChange={(event) => {
               setNewImage(event.target.files[0])
@@ -105,7 +105,7 @@ export const EditPost = () => {
         
         {/* Update post */}
         <div className={styles.formAddPost__buttonWrapper}>
-          <button onClick={submitHandler}>Сохранить</button>
+          <button onClick={submitHandler}>Save</button>
         </div>
       </form>
     </div>

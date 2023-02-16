@@ -42,7 +42,7 @@ export const Header = () => {
                 <NavLink
                   to={'/'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">Главная</NavLink>
+                  href="">Main</NavLink>
               </li>
 
               {/* User posts page */}
@@ -50,7 +50,7 @@ export const Header = () => {
                 <NavLink
                   to={'/posts'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">Мои посты</NavLink>
+                  href="">My posts</NavLink>
               </li>
 
               {/* Add post page */}
@@ -58,7 +58,7 @@ export const Header = () => {
                 <NavLink
                   to={'/post/add'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">Добавить пост</NavLink>
+                  href="">Add a post</NavLink>
               </li>
             </ul>
           )

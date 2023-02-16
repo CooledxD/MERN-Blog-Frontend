@@ -33,7 +33,7 @@ export const Home = () => {
 
   if (!posts.length) {
     return (
-      <p>Постов не существует.</p>
+      <p>There are no posts</p>
     )
   }
 
@@ -58,7 +58,7 @@ export const Home = () => {
 
       {/* Popular posts */}
       <aside>
-        <h2>Популярное</h2>
+        <h2>Popular</h2>
         <ul>
           {
             popularPosts.map((post, index) => (
