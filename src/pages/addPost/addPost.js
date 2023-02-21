@@ -8,6 +8,9 @@ import 'react-quill/dist/quill.snow.css'
 import { createPost } from "../../redux/features/post/postSlice.js";
 import { addPostUserState } from "../../redux/features/user/userSlice.js";
 
+// Component
+import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+
 // Styles
 import styles from './addPost.module.css'
 
@@ -20,6 +23,7 @@ export const AddPost = () => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [image, setImage] = useState('')
+  const [errorr, setErrorr] = useState('')
 
   const modules = {
     toolbar: [
@@ -37,25 +41,28 @@ export const AddPost = () => {
 
   // Create post
   const submitHandler = () => {
-    try {
-      const post = new FormData()
+    const post = new FormData()
 
-      post.append('title', title)
-      post.append('text', text)
-      post.append('image', image)
+    post.append('title', title)
+    post.append('text', text)
+    post.append('image', image)
 
-      dispatch(createPost(post)).then((res) => {
-        dispatch(addPostUserState(res.payload.newPost._id))
+    dispatch(createPost(post))
+    .then(({ error, payload }) => {
+      if (payload) {
+        dispatch(addPostUserState(payload.newPost._id))
         navigate('/posts')
-      })
-    } catch (error) {
-      console.log(error)
-    }
+      } else if (error) {
+        setErrorr(error.message)
+      }
+    })
   }
 
   return (
     <div className={styles.formWrapper}>
       <form className={styles.formAddPost} onSubmit={(event) => event.preventDefault()}>
+
+      {errorr && <ErrorMessage message={errorr} />}
 
         {/* Image */}
         <label className={styles.fromAddPost__input}>

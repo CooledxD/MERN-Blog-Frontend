@@ -10,13 +10,13 @@ const initialState = {
 }
 
 // Create post
-export const createPost = createAsyncThunk('post/createPost', async (params) => {
+export const createPost = createAsyncThunk('post/createPost', async (post) => {
   try {
-    const { data } = await axios.post('/posts', params)
+    const { data } = await axios.post('/posts', post)
 
     return data
   } catch (error) {
-    console.log(error)
+    throw new Error(error.response.data.message)
   }
 })
 
@@ -27,29 +27,29 @@ export const getAllPosts = createAsyncThunk('post/getAllPosts', async () => {
     
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 
 // Remove post
 export const removePost = createAsyncThunk('post/removePost', async (id) => {
   try {
-    const { data } = await axios.delete(`posts/${id}`, id)
+    const { data } = await axios.delete(`posts/${id}`)
 
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 
 // Update post
-export const updatePost = createAsyncThunk('post/updatePost', async (updatePost) => {
+export const updatePost = createAsyncThunk('post/updatePost', async ({updatedPost, postId}) => {
   try {
-    const { data } = await axios.put(`posts/${updatePost.id}`, updatePost)
+    const { data } = await axios.put(`posts/${postId}`, updatedPost)
 
     return data
   } catch (error) {
-    console.log(error)
+    throw new Error(error.message)
   }
 })
 
@@ -60,7 +60,7 @@ export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
 
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 

@@ -9,15 +9,13 @@ const initialState = {
 }
 
 // Renew access token
-export const renewAccessToken = createAsyncThunk('auth/renewAccessToken', async () => {
+export const renewAccessToken = createAsyncThunk('auth/renewAccessToken', async (_, {rejectWithValue}) => {
   try {
     const { data } = await axios.post('/auth/renew-access-token')
 
     return data
   } catch (error) {
-    console.log(error)
-
-    return error.response.data.message
+    return rejectWithValue(error.response.data)
   }
 })
 
@@ -28,9 +26,7 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
 
     return data
   } catch (error) {
-    console.log(error)
-
-    return error.response.data.message
+    console.log(error.message)
   }
 })
 

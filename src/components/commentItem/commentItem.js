@@ -26,7 +26,7 @@ export const CommentItem = ({ cmt }) => {
         postId: cmt.post
       }))
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 

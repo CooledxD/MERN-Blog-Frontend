@@ -34,18 +34,19 @@ export const Register = () => {
     try {
       event.preventDefault()
 
-      if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
-        return setFormData({
-          ...formData,
-          error: 'Please fill in all fields',
-          success: ''
-        })
-      }
+      // if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+      //   return setFormData({
+      //     ...formData,
+      //     error: 'Please fill in all fields',
+      //     success: ''
+      //   })
+      // }
 
       const data = await registerUser({
         username: formData.username,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
       })
 
       setFormData({
@@ -54,11 +55,9 @@ export const Register = () => {
         success: data.message
       })
     } catch (error) {
-      console.log(error)
-
       setFormData({
         ...formData,
-        error,
+        error: error.message,
         success: ''
       })
     }

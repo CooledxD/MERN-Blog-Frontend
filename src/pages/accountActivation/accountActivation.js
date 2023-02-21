@@ -20,9 +20,7 @@ export const AccountActivation = () => {
   
         setSuccess(data.message)
       } catch (error) {
-        console.log(error)
-  
-        setError(error)
+        setError(error.message)
       }
     }
 

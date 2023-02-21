@@ -3,19 +3,17 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 // Store
-// import { getUser } from "../../redux/features/user/userSlice.js";
+import { getUser } from "../../redux/features/user/userSlice.js";
 import { renewAccessToken } from "../../redux/features/auth/authSlice.js";
 
 // Utils
 import { loginUser } from "../../utils/api.js";
 
 // Components
-import { SuccessMessage } from "../../components/successMessage/successMessage.js";
 import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
 
 // Styles
 import styles from './login.module.css'
-import { getUser } from "../../redux/features/user/userSlice.js";
 
 export const Login = () => {
   // Hooks
@@ -25,7 +23,6 @@ export const Login = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    success: '',
     error: ''
   })
 
@@ -50,12 +47,9 @@ export const Login = () => {
         dispatch(getUser())
       })
     } catch (error) {
-      console.log(error)
-
       setFormData({
         ...formData,
-        error,
-        success: ''
+        error: error.message,
       })
     }
   }
@@ -65,7 +59,6 @@ export const Login = () => {
       <form className={styles.formAuth} onSubmit={handleSubmit}>
         <h1>Authorization</h1>
 
-        {formData.success && <SuccessMessage message={formData.success} />}
         {formData.error && <ErrorMessage message={formData.error} />}
 
         {/* Username */}

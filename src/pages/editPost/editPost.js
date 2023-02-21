@@ -17,7 +17,7 @@ export const EditPost = () => {
   // Hooks
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const params = useParams()
+  const { postId } = useParams()
 
   // State
   const [title, setTitle] = useState('')
@@ -28,7 +28,7 @@ export const EditPost = () => {
   // Getting a post
   const fetchPost = useCallback(async () => {
     try {
-      const { data } = await axios.get(`/posts/${params.id}`)
+      const { data } = await axios.get(`/posts/${postId}`)
 
       setTitle(data.title)
       setText(data.text)
@@ -36,7 +36,7 @@ export const EditPost = () => {
     } catch (error) {
       console.log(error)
     }
-  }, [params.id])
+  }, [postId])
 
   useEffect(() => {
     fetchPost()
@@ -50,13 +50,12 @@ export const EditPost = () => {
       updatedPost.append('title', title)
       updatedPost.append('text', text)
       updatedPost.append('image', newImage ? newImage : oldImage)
-      updatedPost.append('id', params.id)
 
-      dispatch(updatePost(updatedPost)).then(() => {
-        navigate(`/post/${params.id}`)
+      dispatch(updatePost({updatedPost, postId})).then(() => {
+        navigate(`/post/${postId}`)
       })
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 

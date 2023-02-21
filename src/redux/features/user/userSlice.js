@@ -7,13 +7,13 @@ const initialState = {
   status: null
 }
 
-export const getUser = createAsyncThunk('user/getUser', async () => {
+export const getUser = createAsyncThunk('user/getUser', async (_, {rejectWithValue}) => {
   try {
     const { data } = await axios.get('/user/get')
 
     return data
   } catch (error) {
-    console.log(error)
+    return rejectWithValue(error.response.data)
   }
 })
 
@@ -23,7 +23,7 @@ export const updateAvatar = createAsyncThunk('user/updateAvatar', async (newAvat
 
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 
@@ -61,8 +61,9 @@ export const userSlice = createSlice({
       state.isLoading = false
       state.user = action.payload.user
     })
-    .addCase(getUser.rejected, (state) => {
+    .addCase(getUser.rejected, (state, action) => {
       state.isLoading = false
+      state.status = action.payload.message
     })
 
     // Update avatar

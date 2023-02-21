@@ -25,16 +25,19 @@ import { getUser } from './redux/features/user/userSlice.js';
 import './index.css'
 
 function App() {
+  // Hooks
   const dispatch = useDispatch()
+  // State
   const isAuth = useSelector((state) => Boolean(state.auth.token))
+  // react-router-dom
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />} errorElement={<ErrorPage />} >
         <Route index element={<Home />} />
         <Route path='posts' element={isAuth ? <Posts /> : <Navigate to='/' />} />
         <Route path='post/add' element={isAuth ? <AddPost /> : <Navigate to='/' />} />
-        <Route path='post/:id' element={<Post />} />
-        <Route path='post/:id/edit' element={isAuth ? <EditPost /> : <Navigate to='/' />} />
+        <Route path='post/:postId' element={<Post />} />
+        <Route path='post/:postId/edit' element={isAuth ? <EditPost /> : <Navigate to='/' />} />
         <Route path='auth/register' element={isAuth ? <Navigate to='/' /> : <Register />} />
         <Route path='auth/login' element={isAuth ? <Navigate to='/' /> : <Login />} />
         <Route path='auth/activate-account/:activationToken' element={isAuth ? <Navigate to='/' /> : <AccountActivation />} />

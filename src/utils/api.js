@@ -1,36 +1,18 @@
 import axios from './axios.js'
 
 // Register
-export const registerUser = async ({ username, password, email }) => {
+export const registerUser = async ({ username, password, email, confirmPassword }) => {
   try {
     const { data } = await axios.post('/auth/register', {
       username,
       password,
+      confirmPassword,
       email
     })
 
     return data
   } catch (error) {
-    console.log(error)
-
-    return error.response.data.message
-  }
-}
-
-// Login
-export const loginUser = async ({ username, password }) => {
-  try {
-    const { data } = await axios.post('/auth/login', {
-      username,
-      password
-    })
-
-
-    return data
-  } catch (error) {
-    console.log(error)
-
-    return error.response.data.message
+    throw new Error(error.response.data.message)
   }
 }
 
@@ -43,8 +25,20 @@ export const activateAccount = async ({ activationToken }) => {
 
     return data
   } catch (error) {
-    console.log(error)
+    throw new Error(error.response.data.message)
+  }
+}
 
-    return error.response.data.message
+// Login
+export const loginUser = async ({ username, password }) => {
+  try {
+    const { data } = await axios.post('/auth/login', {
+      username,
+      password
+    })
+
+    return data
+  } catch (error) {
+    throw new Error(error.response.data.message)
   }
 }

@@ -10,7 +10,7 @@ const initialState = {
 // Create comment
 export const createComment = createAsyncThunk('comment/createComment', async ({ postId, comment, authorAvatar }) => {
   try {
-    const { data } = await axios.post(`/comments/${postId}`, {
+    const { data } = await axios.post(`/comments`, {
       postId,
       comment,
       authorAvatar
@@ -18,25 +18,25 @@ export const createComment = createAsyncThunk('comment/createComment', async ({ 
 
     return data
   } catch (error) {
-    console.log(error)
+    throw new Error(error.message)
   }
 })
 
 // Getting comments on a post
 export const getPostComments = createAsyncThunk('comment/getPostComments', async (postId) => {
   try {
-    const { data } = await axios.get(`/posts/comments/${postId}`)
+    const { data } = await axios.get(`/posts/${postId}/comments`)
 
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 
 // Remove comment
 export const removeComment = createAsyncThunk('comment/removeComment', async ({ postId, commentId }) => {
   try {
-    const { data } = await axios.delete(`/comments/${postId}`, {
+    const { data } = await axios.delete(`/comments`, {
       data: {
         postId,
         commentId
@@ -45,14 +45,18 @@ export const removeComment = createAsyncThunk('comment/removeComment', async ({ 
 
     return data
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
   }
 })
 
 export const commentSlice = createSlice({
   name: 'comment',
   initialState,
-  reducers: {},
+  reducers: {
+    removeComments: (state) => {
+      state.comments = []
+    }
+  },
   extraReducers: (builder) => {
     // Create comment
     builder.addCase(createComment.pending, (state) => {
@@ -60,7 +64,7 @@ export const commentSlice = createSlice({
     })
     .addCase(createComment.fulfilled, (state, action) => {
       state.loading = false
-      state.comments.push(action.payload)
+      state.comments.push(action.payload.newComment)
     })
     .addCase(createComment.rejected, (state) => {
       state.loading = false
@@ -94,5 +98,7 @@ export const commentSlice = createSlice({
     })
   }
 })
+
+export const { removeComments } = commentSlice.actions
 
 export default commentSlice.reducer

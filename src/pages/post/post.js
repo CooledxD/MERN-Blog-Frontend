@@ -4,17 +4,19 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import parse from 'html-react-parser'
 
 import { CommentItem } from "../../components/commentItem/commentItem.js";
-import { createComment, getPostComments } from "../../redux/features/comment/commentSlice.js";
+import { createComment, getPostComments, removeComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
-import axios from '../../utils/axios.js'
 import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
+
+// Utils
+import axios from '../../utils/axios.js'
 
 // Styles
 import styles from './post.module.css'
 
 export const Post = () => {
   // Hooks
-  const params = useParams()
+  const { postId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -33,83 +35,82 @@ export const Post = () => {
   // Remove post
   const removePostHandler = () => {
     try {
-      dispatch(removePost(params.id)).then(() => {
-        dispatch(removePostUserState(params.id))
-        dispatch(removeLikeUserState(params.id))
+      dispatch(removePost(postId)).then(() => {
+        dispatch(removePostUserState(postId))
+        dispatch(removeLikeUserState(postId))
+        dispatch(removeComments())
         navigate('/posts')
       })
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 
-  // Create post
+  // Create comment
   const handelSubmit = () => {
     try {
-      const postId = params.id
-
       dispatch(createComment({ postId, comment, authorAvatar: user.avatar }))
-      
+
       setComment('')
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 
   // Getting comments on a post
   const fetchComments = useCallback(async () => {
     try {
-      dispatch(getPostComments(params.id))
+      dispatch(getPostComments(postId))
     } catch (error) {
       console.log(error)
     }
-  }, [dispatch, params.id])
+  }, [dispatch, postId])
 
   // Getting post
   const fetchPost = useCallback(async () => {
     try {
-      const { data } = await axios.get(`/posts/${params.id}`)
+      const { data } = await axios.get(`/posts/${postId}`)
 
       setPost(data)
     } catch (error) {
-      console.log(error)
+      throw new Error(error.message)
     }
-  }, [params.id])
+  }, [postId])
 
   // Installing and deleting likes to a post
   const addOrRemoveUserLikePost = useCallback(async () => {
     try {
       const likes = post.likes
-      const copyPost = {...post}
+      const copyPost = { ...post }
 
       // Deleting a like
       if (post.likes.includes(user.username)) {
 
-        await axios.delete(`/posts/likes/${params.id}`, {
+        await axios.delete(`/posts/${postId}/likes`, {
           data: {
             username: user.username
           }
         })
 
-        dispatch(removeLikeUserState(params.id))
+        dispatch(removeLikeUserState(postId))
 
         likes.splice(likes.indexOf(user.username), 1)
 
         setPost(Object.assign(copyPost, { likes: [...likes] }))
       } else {
-      // Installing a like
-        await axios.put(`/posts/likes/${params.id}`, {
+        // Installing a like
+        await axios.put(`/posts/${postId}/likes`, {
           username: user.username
         })
 
-        dispatch(addLikeUserState(params.id))
-  
+        dispatch(addLikeUserState(postId))
+
         setPost(Object.assign(copyPost, { likes: [...copyPost.likes, user.username] }))
       }
     } catch (error) {
       console.log(error)
     }
-  }, [params.id, user?.username, post, dispatch])
+  }, [postId, user?.username, post, dispatch])
 
   useEffect(() => {
     fetchPost()
@@ -126,36 +127,51 @@ export const Post = () => {
   return (
     <div className={styles.postWrapper}>
       <article>
+        {/* Title */}
         <h1>{post.title}</h1>
+
+        {/* Info */}
         <div>
           <span>{post.username}</span>
           <time>{date}</time>
         </div>
+
+        {/* image */}
         {
           post.image && <img className={styles.post__image} src={`${process.env.HOST}/${post.image}`} alt="image post" />
         }
+
+        {/* Text */}
         <div>
-          { parse(String(post.text)) }
+          {parse(String(post.text))}
         </div>
         <footer>
+
+          {/* Likes */}
           <div>
-            <button onClick={ isAuth ? addOrRemoveUserLikePost: undefined}>
+            <button onClick={isAuth ? addOrRemoveUserLikePost : undefined}>
               <img src="" alt="likes" /> <span>{post.likes?.length}</span>
             </button>
           </div>
+
+          {/* Views */}
           <div>
             <img src="" alt="views" /> <span>{post.views}</span>
           </div>
+
+          {/* Count comments */}
           <div>
             <img src="" alt="count comment" /> <span>{post.comments?.length}</span>
           </div>
+
+          {/* Button remove and edit */}
           {
             user?.username === post.username && (
               <>
                 <button onClick={removePostHandler}>
                   <img src="" alt="remove" /> <span>remove</span>
                 </button>
-                <Link to={`/post/${params.id}/edit`}>
+                <Link to={`/post/${postId}/edit`}>
                   <img src="" alt="edit" /> <span>edit</span>
                 </Link>
               </>
@@ -164,16 +180,20 @@ export const Post = () => {
         </footer>
       </article>
       <aside>
+
+        {/* Create comment */}
         {isAuth &&
           <form onSubmit={event => event.preventDefault()}>
-          <input 
-            value={comment} 
-            onChange={event => setComment(event.target.value)} 
-            type="text" 
-            placeholder="Comment" />
-          <button onClick={handelSubmit} type="submit">Send</button>
-        </form>
+            <input
+              value={comment}
+              onChange={event => setComment(event.target.value)}
+              type="text"
+              placeholder="Comment" />
+            <button onClick={handelSubmit} type="submit">Send</button>
+          </form>
         }
+
+        {/* Comments */}
         <ul>
           {
             comments?.map((cmt) => (
