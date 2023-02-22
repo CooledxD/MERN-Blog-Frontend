@@ -10,27 +10,36 @@ import { activateAccount } from "../../utils/api.js";
 
 export const AccountActivation = () => {
   const { activationToken } = useParams()
-  const [success, setSuccess] = useState('')
-  const [error, setError] = useState('')
+  const [message, setMessage] = useState({
+    success: '',
+    error: ''
+  })
 
   useEffect(() => {
     const activate = async () => {
       try {
         const data = await activateAccount({activationToken})
   
-        setSuccess(data.message)
+        setMessage({
+          ...message,
+          success: data.message
+        })
       } catch (error) {
-        setError(error.message)
+        setMessage({
+          ...message,
+          error: error.message
+        })
       }
     }
 
     activate()
-  }, [activationToken])
+    /* eslint-disable-next-line */
+  }, [])
 
   return (
     <div>
-      { success && <SuccessMessage message={success} /> }
-      { error && <ErrorMessage message={error} /> }
+      { message.success && <SuccessMessage message={message.success} /> }
+      { message.error && <ErrorMessage message={message.error} /> }
     </div>
   )
 }
