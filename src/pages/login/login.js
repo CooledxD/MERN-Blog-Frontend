@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
 // Store
 import { getUser } from "../../redux/features/user/userSlice.js";
 import { renewAccessToken } from "../../redux/features/auth/authSlice.js";
-
 // Utils
 import { loginUser } from "../../utils/api.js";
-
+import { validationLogin } from "../../utils/validation/validationLogin.js";
 // Components
 import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
-
 // Styles
 import styles from './login.module.css'
 
 export const Login = () => {
   // Hooks
   const dispatch = useDispatch()
-
   // State
   const [formData, setFormData] = useState({
     username: '',
@@ -32,11 +28,15 @@ export const Login = () => {
       [event.target.name]: event.target.value
     })
   }
-
   // Login
   const handleSubmit = async (event) => {
     try {
       event.preventDefault()
+
+      await validationLogin({
+        username: formData.username,
+        password: formData.password
+      })
 
       await loginUser({
         username: formData.username,
