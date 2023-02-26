@@ -18,7 +18,7 @@ export const createComment = createAsyncThunk('comment/createComment', async ({ 
 
     return data
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error.response.data.message)
   }
 })
 
