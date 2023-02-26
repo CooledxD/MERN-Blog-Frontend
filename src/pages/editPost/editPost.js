@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css'
+// import ReactQuill from "react-quill";
+// import 'react-quill/dist/quill.snow.css'
 
 // Store
 import { updatePost } from "../../redux/features/post/postSlice.js";
@@ -96,11 +96,11 @@ export const EditPost = () => {
           placeholder="Заголовок поста" />
 
         {/* Text */}
-        <ReactQuill
+        {/* <ReactQuill
           theme='snow'
           value={text}
           onChange={setText}
-          className={styles.quill} />
+          className={styles.quill} /> */}
         
         {/* Update post */}
         <div className={styles.formAddPost__buttonWrapper}>

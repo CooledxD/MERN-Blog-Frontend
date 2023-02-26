@@ -39,7 +39,7 @@
 }
 
 .quill {
-  max-width: 450px;
+  max-width: 740px;
 }
 
 .quill [contenteditable]:focus {
@@ -47,5 +47,5 @@
 }
 
 .quill [contenteditable] {
-  min-height: 150px;
+  height: 400px;
 }
