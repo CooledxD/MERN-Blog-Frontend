@@ -49,7 +49,7 @@ export const updatePost = createAsyncThunk('post/updatePost', async ({updatedPos
 
     return data
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error.response.data.message)
   }
 })
 
