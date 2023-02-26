@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-// import ReactQuill from "react-quill";
-// import 'react-quill/dist/quill.snow.css'
-
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css'
+// Component
+import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
 // Store
 import { updatePost } from "../../redux/features/post/postSlice.js";
-
 // Utils
 import axios from '../../utils/axios.js'
-
+import { validationUpdatePost } from '../../utils/validation/validationUpdatePost.js'
 // Styles
 import styles from './editPost.module.css'
 
@@ -18,13 +18,29 @@ export const EditPost = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { postId } = useParams()
-
   // State
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [oldImage, setOldImage] = useState('')
   const [newImage, setNewImage] = useState('')
+  const [message, setMessage] = useState('')
 
+  // Quill options
+  const modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+
+      [{ 'header': [1, 2, 3, false] }, { 'font': [] }],
+
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
+
+      [{ 'color': [] }, { 'background': [] }],
+
+      ['link', 'image'],
+
+      ['clean']
+    ],
+  }
   // Getting a post
   const fetchPost = useCallback(async () => {
     try {
@@ -37,31 +53,45 @@ export const EditPost = () => {
       console.log(error)
     }
   }, [postId])
-
-  useEffect(() => {
-    fetchPost()
-  }, [fetchPost])
-
   // Update post
-  const submitHandler = () => {
+  const handleSubmit = async (event) => {
     try {
+      event.preventDefault()
+      // Validation
+      await validationUpdatePost({
+        title: title,
+        text: text,
+        image: newImage
+      })
+      // Create post
       const updatedPost = new FormData()
 
       updatedPost.append('title', title)
       updatedPost.append('text', text)
       updatedPost.append('image', newImage ? newImage : oldImage)
 
-      dispatch(updatePost({updatedPost, postId})).then(() => {
-        navigate(`/post/${postId}`)
-      })
+      dispatch(updatePost({updatedPost, postId})).unwrap()
+        .then(() => {
+          navigate(`/post/${postId}`)
+        })
+        .catch((error) => {
+          setMessage(error.message)
+        })
     } catch (error) {
-      console.log(error.message)
+      setMessage(error.message)
     }
   }
 
+  useEffect(() => {
+    fetchPost()
+  }, [fetchPost])
+
   return (
     <div className={styles.formWrapper}>
-      <form className={styles.formAddPost} onSubmit={(event) => event.preventDefault()}>
+      <form className={styles.formAddPost} onSubmit={handleSubmit}>
+
+        {/* Message */}
+        {message && <ErrorMessage message={message} />}
 
         {/* Update image */}
         <label className={styles.fromAddPost__input}>
@@ -96,15 +126,18 @@ export const EditPost = () => {
           placeholder="Заголовок поста" />
 
         {/* Text */}
-        {/* <ReactQuill
+        <ReactQuill
           theme='snow'
           value={text}
           onChange={setText}
-          className={styles.quill} /> */}
+          className={styles.quill}
+          modules={modules}
+          placeholder={'Content goes here...'}
+        />
         
         {/* Update post */}
         <div className={styles.formAddPost__buttonWrapper}>
-          <button onClick={submitHandler}>Save</button>
+          <button type="submit">Save</button>
         </div>
       </form>
     </div>

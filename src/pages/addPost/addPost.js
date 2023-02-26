@@ -8,6 +8,8 @@ import { createPost } from "../../redux/features/post/postSlice.js";
 import { addPostUserState } from "../../redux/features/user/userSlice.js";
 // Component
 import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+// Utils
+import { validationCreatePost } from "../../utils/validation/validationCreatePost.js";
 // Styles
 import styles from './addPost.module.css'
 
@@ -23,11 +25,11 @@ export const AddPost = () => {
   // Quill options
   const modules = {
     toolbar: [
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
 
       [{ 'header': [1, 2, 3, false] }, { 'font': [] }],
 
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}, { 'align': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }, { 'align': [] }],
 
       [{ 'color': [] }, { 'background': [] }],
 
@@ -37,25 +39,38 @@ export const AddPost = () => {
     ],
   }
   // Create post
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault()
 
-    const post = new FormData()
-
-    post.append('title', title)
-    post.append('text', text)
-    post.append('image', image)
-
-    dispatch(createPost(post)).unwrap()
-      .then((payload) => {
-
-        dispatch(addPostUserState(payload.newPost._id))
-
-        navigate('/posts')
+      // Validation
+      await validationCreatePost({
+        title: title,
+        text: text,
+        image: image
       })
-      .catch((error) => {
-        setMessage(error.message)
-      })
+
+      // Create formData
+      const post = new FormData()
+
+      post.append('title', title)
+      post.append('text', text)
+      post.append('image', image)
+
+      // Create post
+      dispatch(createPost(post)).unwrap()
+        .then((payload) => {
+
+          dispatch(addPostUserState(payload.newPost._id))
+
+          navigate('/posts')
+        })
+        .catch((error) => {
+          setMessage(error.message)
+        })
+    } catch (error) {
+      setMessage(error.message)
+    }
   }
 
   return (
@@ -90,7 +105,7 @@ export const AddPost = () => {
           placeholder="Заголовок поста" />
 
         {/* Text */}
-        <ReactQuill 
+        <ReactQuill
           theme="snow"
           className={styles.quill}
           value={text}
