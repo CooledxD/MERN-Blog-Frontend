@@ -2,15 +2,16 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import parse from 'html-react-parser'
-
+// Component
 import { CommentItem } from "../../components/commentItem/commentItem.js";
+import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+// State
 import { createComment, getPostComments, removeComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
 import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
-
 // Utils
 import axios from '../../utils/axios.js'
-
+import { validationCreateComment } from '../../utils/validation/validationCreateComment.js'
 // Styles
 import styles from './post.module.css'
 
@@ -19,19 +20,16 @@ export const Post = () => {
   const { postId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   // State
   const [post, setPost] = useState('')
   const [comment, setComment] = useState('')
-
+  const [message, setMessage] = useState('')
   // Store
   const { user } = useSelector(state => state.user)
   const { comments } = useSelector(state => state.comment)
   const isAuth = useSelector((state) => Boolean(state.auth.token))
-
   // Date Conversion
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
-
   // Remove post
   const removePostHandler = () => {
     try {
@@ -45,18 +43,23 @@ export const Post = () => {
       console.log(error.message)
     }
   }
-
   // Create comment
-  const handelSubmit = () => {
+  const handelSubmit = async () => {
     try {
-      dispatch(createComment({ postId, comment, authorAvatar: user.avatar }))
+      await validationCreateComment(comment)
 
-      setComment('')
+      dispatch(createComment({ postId, comment, authorAvatar: user.avatar })).unwrap()
+        .then(() => {
+          setComment('')
+          setMessage('')
+        })
+        .catch((error) => {
+          setMessage(error.message)
+        })
     } catch (error) {
-      console.log(error.message)
+      setMessage(error.message)
     }
   }
-
   // Getting comments on a post
   const fetchComments = useCallback(async () => {
     try {
@@ -65,7 +68,6 @@ export const Post = () => {
       console.log(error)
     }
   }, [dispatch, postId])
-
   // Getting post
   const fetchPost = useCallback(async () => {
     try {
@@ -76,7 +78,6 @@ export const Post = () => {
       throw new Error(error.message)
     }
   }, [postId])
-
   // Installing and deleting likes to a post
   const addOrRemoveUserLikePost = useCallback(async () => {
     try {
@@ -114,9 +115,11 @@ export const Post = () => {
 
   useEffect(() => {
     fetchPost()
+  }, [fetchPost])
 
+  useEffect(() => {
     fetchComments()
-  }, [fetchPost, fetchComments])
+  }, [fetchComments])
 
   if (!post) {
     return (
@@ -180,6 +183,9 @@ export const Post = () => {
         </footer>
       </article>
       <aside>
+
+        {/* Message */}
+        {message && <ErrorMessage message={message} />}
 
         {/* Create comment */}
         {isAuth &&
