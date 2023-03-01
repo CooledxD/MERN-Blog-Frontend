@@ -60,7 +60,7 @@ export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
 
     return data
   } catch (error) {
-    console.log(error.message)
+    throw new Error(error.response.data.message)
   }
 })
 

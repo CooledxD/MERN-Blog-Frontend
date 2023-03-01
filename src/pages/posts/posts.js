@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Components
 import { PostItem } from "../../components/postItem/postItem.js";
+import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
 
 // Store
 import { getUserPosts } from "../../redux/features/post/postSlice.js";
@@ -17,13 +18,21 @@ export const Posts = () => {
   // Store
   const { userPosts } = useSelector(state => state.post)
 
+  // State
+  const [noPosts, setNoPosts] = useState('')
+
   useEffect(() => {
-    dispatch(getUserPosts())
+    dispatch(getUserPosts()).unwrap()
+      .catch((error) => {
+        setNoPosts(error.message)
+      })
   }, [dispatch])
 
-  if (!userPosts.length) {
+  if (noPosts) {
     return (
-      <p>There are no posts</p>
+      <>
+        <ErrorMessage message={noPosts} />
+      </>
     )
   }
 

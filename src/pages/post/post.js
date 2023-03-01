@@ -2,16 +2,20 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import parse from 'html-react-parser'
+
 // Component
 import { CommentItem } from "../../components/commentItem/commentItem.js";
 import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+
 // State
 import { createComment, getPostComments, removeComments } from "../../redux/features/comment/commentSlice.js";
 import { removePost } from "../../redux/features/post/postSlice.js";
 import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
+
 // Utils
 import axios from '../../utils/axios.js'
 import { validationCreateComment } from '../../utils/validation/validationCreateComment.js'
+
 // Styles
 import styles from './post.module.css'
 
@@ -20,16 +24,21 @@ export const Post = () => {
   const { postId } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   // State
   const [post, setPost] = useState('')
   const [comment, setComment] = useState('')
   const [message, setMessage] = useState('')
+  const [noPost, setNoPost] = useState('')
+
   // Store
   const { user } = useSelector(state => state.user)
   const { comments } = useSelector(state => state.comment)
   const isAuth = useSelector((state) => Boolean(state.auth.token))
+
   // Date Conversion
   const date = new Date(Date.parse(post.createdAt)).toLocaleDateString()
+
   // Remove post
   const removePostHandler = () => {
     try {
@@ -43,6 +52,7 @@ export const Post = () => {
       console.log(error.message)
     }
   }
+
   // Create comment
   const handelSubmit = async () => {
     try {
@@ -60,6 +70,7 @@ export const Post = () => {
       setMessage(error.message)
     }
   }
+
   // Getting comments on a post
   const fetchComments = useCallback(async () => {
     try {
@@ -68,6 +79,7 @@ export const Post = () => {
       console.log(error)
     }
   }, [dispatch, postId])
+
   // Getting post
   const fetchPost = useCallback(async () => {
     try {
@@ -75,9 +87,10 @@ export const Post = () => {
 
       setPost(data)
     } catch (error) {
-      throw new Error(error.message)
+      setNoPost(error.response.data.message)
     }
   }, [postId])
+  
   // Installing and deleting likes to a post
   const addOrRemoveUserLikePost = useCallback(async () => {
     try {
@@ -121,9 +134,11 @@ export const Post = () => {
     fetchComments()
   }, [fetchComments])
 
-  if (!post) {
+  if (noPost) {
     return (
-      <p>There is no such post</p>
+      <>
+        <ErrorMessage message={noPost} />
+      </>
     )
   }
 
