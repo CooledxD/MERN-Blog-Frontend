@@ -76,7 +76,7 @@ export const Post = () => {
     try {
       dispatch(getPostComments(postId))
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }, [dispatch, postId])
 
@@ -90,7 +90,7 @@ export const Post = () => {
       setNoPost(error.response.data.message)
     }
   }, [postId])
-  
+
   // Installing and deleting likes to a post
   const addOrRemoveUserLikePost = useCallback(async () => {
     try {
@@ -179,7 +179,7 @@ export const Post = () => {
 
           {/* Count comments */}
           <div>
-            <img src="" alt="count comment" /> <span>{post.comments?.length}</span>
+            <img src="" alt="count comment" /> <span>{comments.length}</span>
           </div>
 
           {/* Button remove and edit */}
