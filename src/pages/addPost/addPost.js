@@ -63,7 +63,7 @@ export const AddPost = () => {
 
           dispatch(addPostUserState(payload.newPost._id))
 
-          navigate('/posts')
+          navigate('/user/posts')
         })
         .catch((error) => {
           setMessage(error.message)

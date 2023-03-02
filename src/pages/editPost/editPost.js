@@ -3,13 +3,17 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
+
 // Component
 import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+
 // Store
 import { updatePost } from "../../redux/features/post/postSlice.js";
+
 // Utils
 import axios from '../../utils/axios.js'
 import { validationUpdatePost } from '../../utils/validation/validationUpdatePost.js'
+
 // Styles
 import styles from './editPost.module.css'
 
@@ -18,6 +22,7 @@ export const EditPost = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { postId } = useParams()
+
   // State
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
@@ -41,6 +46,7 @@ export const EditPost = () => {
       ['clean']
     ],
   }
+
   // Getting a post
   const fetchPost = useCallback(async () => {
     try {
@@ -53,16 +59,19 @@ export const EditPost = () => {
       console.log(error)
     }
   }, [postId])
+
   // Update post
   const handleSubmit = async (event) => {
     try {
       event.preventDefault()
+
       // Validation
       await validationUpdatePost({
         title: title,
         text: text,
         image: newImage
       })
+      
       // Create post
       const updatedPost = new FormData()
 

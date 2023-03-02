@@ -3,9 +3,9 @@ import { Link, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
-import { logoutUser } from "../../redux/features/auth/authSlice.js";
-import { logout } from "../../redux/features/user/userSlice.js";
-import { logoutUserPost } from "../../redux/features/post/postSlice.js";
+import { logoutAuthState } from "../../redux/features/auth/authSlice.js";
+import { logoutUserState } from "../../redux/features/user/userSlice.js";
+import { logoutPostState } from "../../redux/features/post/postSlice.js";
 
 // Styles
 import styles from './header.module.css'
@@ -20,9 +20,9 @@ export const Header = () => {
 
   // Logout
   const logoutHandler = () => {
-    dispatch(logoutUser())
-    dispatch(logout())
-    dispatch(logoutUserPost())
+    dispatch(logoutAuthState())
+    dispatch(logoutUserState())
+    dispatch(logoutPostState())
   }
 
   return (
@@ -48,7 +48,7 @@ export const Header = () => {
               {/* User posts page */}
               <li>
                 <NavLink
-                  to={'/posts'}
+                  to={'/user/posts'}
                   className={({ isActive }) => isActive ? styles.activeStyles : undefined}
                   href="">My posts</NavLink>
               </li>
@@ -67,7 +67,7 @@ export const Header = () => {
         {/* Profile page */}
         {
           isAuth && (
-            <Link to={'/profile'}>
+            <Link to={'/user/profile'}>
 
               {/* Avatar */}
               {
@@ -87,7 +87,7 @@ export const Header = () => {
 
         {/* Login and logout */}
         <div className={styles.navRight}>
-          <Link to={'auth/login'} href="">
+          <Link to={'/auth/login'}>
             <span className={styles.btnHeader} onClick={isAuth ? logoutHandler : undefined}>{ isAuth ? 'Logout' : 'Login' }</span>
           </Link>
         </div>

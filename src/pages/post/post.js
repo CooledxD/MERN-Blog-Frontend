@@ -46,7 +46,7 @@ export const Post = () => {
         dispatch(removePostUserState(postId))
         dispatch(removeLikeUserState(postId))
         dispatch(removeComments())
-        navigate('/posts')
+        navigate('/user/posts')
       })
     } catch (error) {
       console.log(error.message)

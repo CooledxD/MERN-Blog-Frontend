@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
 // Store
 import { getUser } from "../../redux/features/user/userSlice.js";
 import { renewAccessToken } from "../../redux/features/auth/authSlice.js";
+import { getUserPosts } from "../../redux/features/post/postSlice.js";
+
 // Utils
 import { loginUser } from "../../utils/api.js";
 import { validationLogin } from "../../utils/validation/validationLogin.js";
+
 // Components
 import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+
 // Styles
 import styles from './login.module.css'
 
 export const Login = () => {
   // Hooks
   const dispatch = useDispatch()
+
   // State
   const [formData, setFormData] = useState({
     username: '',
@@ -28,6 +34,7 @@ export const Login = () => {
       [event.target.name]: event.target.value
     })
   }
+  
   // Login
   const handleSubmit = async (event) => {
     try {
@@ -45,6 +52,7 @@ export const Login = () => {
 
       dispatch(renewAccessToken()).then(() => {
         dispatch(getUser())
+        dispatch(getUserPosts())
       })
     } catch (error) {
       setFormData({

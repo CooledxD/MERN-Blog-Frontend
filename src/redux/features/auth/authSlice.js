@@ -13,6 +13,8 @@ export const renewAccessToken = createAsyncThunk('auth/renewAccessToken', async 
   try {
     const { data } = await axios.post('/auth/renew-access-token')
 
+    sessionStorage.setItem('isAuth', true)
+
     return data
   } catch (error) {
     return rejectWithValue(error.response.data)
@@ -20,7 +22,7 @@ export const renewAccessToken = createAsyncThunk('auth/renewAccessToken', async 
 })
 
 // Logout
-export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
+export const logoutAuthState = createAsyncThunk('auth/logoutAuthState', async () => {
   try {
     const { data } = axios.get('auth/logout')
 
@@ -51,16 +53,16 @@ export const authSlice = createSlice({
     })
 
     // Logout
-    builder.addCase(logoutUser.pending, (state) => {
+    builder.addCase(logoutAuthState.pending, (state) => {
       state.isLoading = true
       state.status = null
     })
-    .addCase(logoutUser.fulfilled, (state) => {
+    .addCase(logoutAuthState.fulfilled, (state) => {
       state.isLoading = false
       state.status = null
       state.token = null
     })
-    .addCase(logoutUser.rejected, (state, action) => {
+    .addCase(logoutAuthState.rejected, (state, action) => {
       state.status = action.payload.message
       state.isLoading = false
     })

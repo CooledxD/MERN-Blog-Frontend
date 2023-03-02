@@ -47,7 +47,7 @@ export const userSlice = createSlice({
 
       state.user.likes.splice(index, 1)
     },
-    logout: (state) => {
+    logoutUserState: (state) => {
       state.user = null
     }
   },
@@ -82,6 +82,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const { addPostUserState, removePostUserState, addLikeUserState, removeLikeUserState, logout } = userSlice.actions
+export const { addPostUserState, removePostUserState, addLikeUserState, removeLikeUserState, logoutUserState } = userSlice.actions
 
 export default userSlice.reducer

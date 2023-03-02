@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route, Navigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 
 // Pages
 import { Home } from './pages/home/home.js'
@@ -16,10 +16,13 @@ import { AccountActivation } from './pages/accountActivation/accountActivation.j
 
 // Components
 import { Layout } from './components/layout/layout.js';
+import { PrivateRoute } from './components/privateRoute/privateRoute.js';
+import { AuthenticationRoute } from './components/authenticationRoute/authenticationRoute.js'
 
 // Store
 import { renewAccessToken } from './redux/features/auth/authSlice.js';
 import { getUser } from './redux/features/user/userSlice.js';
+import { getUserPosts } from './redux/features/post/postSlice.js';
 
 // Styles
 import './index.css'
@@ -27,21 +30,26 @@ import './index.css'
 function App() {
   // Hooks
   const dispatch = useDispatch()
-  // State
-  const isAuth = useSelector((state) => Boolean(state.auth.token))
+
   // react-router-dom
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />} errorElement={<ErrorPage />} >
         <Route index element={<Home />} />
-        <Route path='posts' element={isAuth ? <Posts /> : <Navigate to='/' />} />
-        <Route path='post/add' element={isAuth ? <AddPost /> : <Navigate to='/' />} />
         <Route path='post/:postId' element={<Post />} />
-        <Route path='post/:postId/edit' element={isAuth ? <EditPost /> : <Navigate to='/' />} />
-        <Route path='auth/register' element={isAuth ? <Navigate to='/' /> : <Register />} />
-        <Route path='auth/login' element={isAuth ? <Navigate to='/' /> : <Login />} />
-        <Route path='auth/activate-account/:activationToken' element={isAuth ? <Navigate to='/' /> : <AccountActivation />} />
-        <Route path='profile' element={isAuth ? <Profile /> : <Navigate to='/' />} />
+
+        <Route element={<AuthenticationRoute />}>
+          <Route path='auth/register' element={<Register />} />
+          <Route path='auth/login' element={<Login />} />
+          <Route path='auth/activate-account/:activationToken' element={<AccountActivation />} />
+        </Route>
+
+        <Route element={<PrivateRoute/>}>
+          <Route path='post/add' element={<AddPost />} />
+          <Route path='user/posts' element={<Posts />} />
+          <Route path='user/profile' element={<Profile />} />
+          <Route path='post/:postId/edit' element={<EditPost />} />
+        </Route>
       </Route>
     )
   )
@@ -49,6 +57,7 @@ function App() {
   useEffect(() => {
     dispatch(renewAccessToken()).then(() => {
       dispatch(getUser())
+      dispatch(getUserPosts())
     })
   }, [dispatch])
 

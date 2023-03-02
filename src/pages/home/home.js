@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Components
 import { PopularPosts } from "../../components/popularPosts/popularPosts.js";
 import { PostItem } from "../../components/postItem/postItem.js";
+import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
 
 // Store
 import { getAllPosts } from "../../redux/features/post/postSlice.js";
@@ -21,6 +22,7 @@ export const Home = () => {
 
   // State
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState('')
 
   // Search
   const filterSearch = posts.filter(post => {
@@ -28,17 +30,20 @@ export const Home = () => {
   })
 
   useEffect(() => {
-    dispatch(getAllPosts())
+    dispatch(getAllPosts()).unwrap()
+      .then(() => {
+        setMessage('')
+      })
+      .catch((error) => {
+        setMessage(error.message)
+      })
   }, [dispatch])
-
-  if (!posts.length) {
-    return (
-      <p>There are no posts</p>
-    )
-  }
 
   return (
     <div className={styles.homeWrapper}>
+
+      {message && <ErrorMessage message={message} />}
+
       <ul className={styles.homePosts}>
         {/* Search */}
         <form>

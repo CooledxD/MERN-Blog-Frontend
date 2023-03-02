@@ -27,7 +27,7 @@ export const getAllPosts = createAsyncThunk('post/getAllPosts', async () => {
     
     return data
   } catch (error) {
-    console.log(error.message)
+    throw new Error(error.response.data.message)
   }
 })
 
@@ -56,7 +56,7 @@ export const updatePost = createAsyncThunk('post/updatePost', async ({updatedPos
 // Getting user posts
 export const getUserPosts = createAsyncThunk('post/getUserPosts', async () => {
   try {
-    const { data } = await axios.get('/posts/user')
+    const { data } = await axios.get('/posts/user-posts')
 
     return data
   } catch (error) {
@@ -68,7 +68,7 @@ export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    logoutUserPost: (state) => {
+    logoutPostState: (state) => {
       state.userPosts = []
     }
   },
@@ -144,6 +144,6 @@ export const postSlice = createSlice({
   }
 })
 
-export const { logoutUserPost } = postSlice.actions
+export const { logoutPostState } = postSlice.actions
 
 export default postSlice.reducer
