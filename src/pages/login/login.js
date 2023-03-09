@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Store
 import { getUser } from "../../redux/features/user/userSlice.js";
@@ -20,6 +20,7 @@ import styles from './login.module.css'
 export const Login = () => {
   // Hooks
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // State
   const [formData, setFormData] = useState({
@@ -53,6 +54,7 @@ export const Login = () => {
       dispatch(renewAccessToken()).then(() => {
         dispatch(getUser())
         dispatch(getUserPosts())
+        navigate('/')
       })
     } catch (error) {
       setFormData({

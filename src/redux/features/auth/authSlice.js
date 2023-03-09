@@ -26,6 +26,8 @@ export const logoutAuthState = createAsyncThunk('auth/logoutAuthState', async ()
   try {
     const { data } = axios.get('auth/logout')
 
+    sessionStorage.clear('isAuth')
+
     return data
   } catch (error) {
     console.log(error.message)
