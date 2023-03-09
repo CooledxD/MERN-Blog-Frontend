@@ -15,9 +15,9 @@ import { ErrorPage } from './pages/errorPage/errorPage.js'
 import { AccountActivation } from './pages/accountActivation/accountActivation.js';
 
 // Components
-import { Layout } from './components/layout/layout.js';
-import { PrivateRoute } from './components/privateRoute/privateRoute.js';
-import { AuthenticationRoute } from './components/authenticationRoute/authenticationRoute.js'
+import { Layout } from './components/Layout/Layout.js';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute.js';
+import { AuthenticationRoute } from './components/AuthenticationRoute/AuthenticationRoute.js'
 
 // Store
 import { renewAccessToken } from './redux/features/auth/authSlice.js';
