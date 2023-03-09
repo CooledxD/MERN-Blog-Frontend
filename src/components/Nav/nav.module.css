@@ -1,0 +1,29 @@
+/* module */
+
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+
+  min-width: 40vmin;
+  gap: 5vw;
+}
+
+/* state */
+
+.isActiveLink {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+/* theme */
+
+.nav {
+  font-family: poppinsmedium, sans-serif;
+}
+
+.isActiveLink {
+  color: #4B56D2;
+}
