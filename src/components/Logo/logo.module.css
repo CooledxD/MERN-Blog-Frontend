@@ -1,0 +1,15 @@
+/* module */
+.logo {
+  font-size: 1.5rem;
+}
+
+/* theme */
+
+.logo {
+  font-family: poppinssemibold, sans-serif;
+  color: #BDCDD6;
+}
+
+.logo__inner {
+  color: #4B56D2;
+}
