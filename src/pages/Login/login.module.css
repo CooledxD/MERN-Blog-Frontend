@@ -1,0 +1,27 @@
+.formAuth {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.formWrapper {
+  padding-top: 100px;
+}
+
+.formAuth__input {
+  padding: 12px 12px;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 5px;
+
+  outline: none;
+}
+
+.formAuth__buttonWrapper {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 30px;
+}
