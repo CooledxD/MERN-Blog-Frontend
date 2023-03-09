@@ -1,1 +1,8 @@
-@import './assets/destyle/destyle.css';
+/* reset */
+@import './assets/styles/base/destyle.css';
+
+/* theme */
+@import '/src/assets/styles/theme/theme.css';
+
+/* fonts */
+@import '/src/assets/styles/base/fonts.css';
