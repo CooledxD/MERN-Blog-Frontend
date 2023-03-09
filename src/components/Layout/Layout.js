@@ -9,7 +9,7 @@ import styles from './layout.module.css'
 
 export const Layout = () => {
   return (
-    <div className={ styles.container }>
+    <div className={ styles.lContainer }>
       <Header />
       <main style={{paddingTop: 12}}>
         <Outlet />
