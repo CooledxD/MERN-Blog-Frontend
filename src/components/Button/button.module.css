@@ -1,0 +1,16 @@
+/* module */
+
+.btn {
+  display: inline-grid;
+  padding: 12px 12px;
+
+  white-space: nowrap;
+}
+
+/* theme */
+
+.btn {
+  border-radius: 6px;
+  background-color: #4B56D2;
+  color: white;
+}
