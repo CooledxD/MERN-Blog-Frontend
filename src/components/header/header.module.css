@@ -21,23 +21,10 @@
   gap: 1vw;
 }
 
-.btn {
-  display: inline-grid;
-  padding: 12px 12px;
-
-  white-space: nowrap;
-}
-
 /* theme */
 
 .lheader {
   background-color: white;
   border-radius: 18px;
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
-}
-
-.btn {
-  border-radius: 6px;
-  background-color: #4B56D2;
-  color: white;
 }
