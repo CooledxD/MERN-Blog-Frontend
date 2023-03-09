@@ -1,0 +1,12 @@
+/* module */
+
+.avatar {
+  height: 55px;
+}
+
+/* theme */
+
+.avatar {
+  border-radius: 50%;
+  background-color: #BDCDD6;
+}
