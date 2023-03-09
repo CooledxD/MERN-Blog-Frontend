@@ -1,0 +1,16 @@
+.postItem__header {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.postItem__image {
+  border-radius: 15px;
+  max-width: 400px;
+}
+
+.postItem__text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}

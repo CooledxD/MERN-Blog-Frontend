@@ -4,8 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import parse from 'html-react-parser'
 
 // Component
-import { CommentItem } from "../../components/commentItem/commentItem.js";
-import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+import { CommentItem } from "../../components/CommentItem/CommentItem.js";
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage.js'
 
 // State
 import { createComment, getPostComments, removeComments } from "../../redux/features/comment/commentSlice.js";

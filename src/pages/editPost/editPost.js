@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
 
 // Component
-import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
 
 // Store
 import { updatePost } from "../../redux/features/post/postSlice.js";

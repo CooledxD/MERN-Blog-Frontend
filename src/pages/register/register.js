@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../../utils/api.js";
 import { validationRegistration } from "../../utils/validation/validationRegistration.js";
 // Components
-import { SuccessMessage } from "../../components/successMessage/successMessage.js";
-import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+import { SuccessMessage } from "../../components/SuccessMessage/SuccessMessage.js";
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage.js'
 // Styles
 import styles from './register.module.css'
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 // Components
-import { Header } from '../header/header.js'
+import { Header } from '../Header/Header.js'
 import { Main } from "../Main/Main.js";
 
 // Styles

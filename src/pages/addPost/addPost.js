@@ -3,13 +3,17 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+
 // Store
 import { createPost } from "../../redux/features/post/postSlice.js";
 import { addPostUserState } from "../../redux/features/user/userSlice.js";
+
 // Component
-import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
+
 // Utils
 import { validationCreatePost } from "../../utils/validation/validationCreatePost.js";
+
 // Styles
 import styles from './addPost.module.css'
 
@@ -17,11 +21,13 @@ export const AddPost = () => {
   // Hooks
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   // State
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [image, setImage] = useState('')
   const [message, setMessage] = useState('')
+
   // Quill options
   const modules = {
     toolbar: [
@@ -38,6 +44,7 @@ export const AddPost = () => {
       ['clean']
     ],
   }
+  
   // Create post
   const handleSubmit = async (event) => {
     try {

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Components
-import { SuccessMessage } from "../../components/successMessage/successMessage.js";
-import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+import { SuccessMessage } from "../../components/SuccessMessage/SuccessMessage.js";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
 
 // Utils
 import { activateAccount } from "../../utils/api.js";

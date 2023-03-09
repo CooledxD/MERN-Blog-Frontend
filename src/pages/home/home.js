@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Components
-import { PopularPosts } from "../../components/popularPosts/popularPosts.js";
-import { PostItem } from "../../components/postItem/postItem.js";
-import { ErrorMessage } from "../../components/errorMessage/errorMessage.js";
+import { PopularPosts } from "../../components/PopularPosts/PopularPosts.js";
+import { PostItem } from "../../components/PostItem/PostItem.js";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
 
 // Store
 import { getAllPosts } from "../../redux/features/post/postSlice.js";

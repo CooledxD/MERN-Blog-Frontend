@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 // Components
-import { PostItem } from "../../components/postItem/postItem.js";
+import { PostItem } from "../../components/PostItem/PostItem.js";
 
 // Styles
 import styles from './posts.module.css'

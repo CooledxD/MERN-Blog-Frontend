@@ -12,7 +12,7 @@ import { loginUser } from "../../utils/api.js";
 import { validationLogin } from "../../utils/validation/validationLogin.js";
 
 // Components
-import { ErrorMessage } from '../../components/errorMessage/errorMessage.js'
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage.js'
 
 // Styles
 import styles from './login.module.css'
