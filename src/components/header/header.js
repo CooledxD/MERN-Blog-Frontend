@@ -1,11 +1,16 @@
 import React from "react";
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
 import { logoutAuthState } from "../../redux/features/auth/authSlice.js";
 import { logoutUserState } from "../../redux/features/user/userSlice.js";
 import { logoutPostState } from "../../redux/features/post/postSlice.js";
+
+// Components
+import { Avatar } from "../Avatar/Avatar.js";
+import { Nav } from "../Nav/Nav.js";
+import { Logo } from "../Logo/Logo.js";
 
 // Styles
 import styles from './header.module.css'
@@ -26,72 +31,37 @@ export const Header = () => {
   }
 
   return (
-    <header>
-      <nav className={styles.navbar}>
+    <header className={styles.lheader}>
+      {/* Logo */}
+      <Logo />
 
-        {/* Logo */}
-        <NavLink to={'/'} className="siteName" href="">hubblog</NavLink>
+      {/* Nav */}
+      {
+        isAuth && (
+          <Nav />
+        )
+      }
 
-        {/* Menu */}
-        {
-          isAuth && (
-            <ul className={styles.nav}>
-
-              {/* Main page */}
-              <li>
-                <NavLink
-                  to={'/'}
-                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">Main</NavLink>
-              </li>
-
-              {/* User posts page */}
-              <li>
-                <NavLink
-                  to={'/user/posts'}
-                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">My posts</NavLink>
-              </li>
-
-              {/* Add post page */}
-              <li>
-                <NavLink
-                  to={'/post/add'}
-                  className={({ isActive }) => isActive ? styles.activeStyles : undefined}
-                  href="">Add a post</NavLink>
-              </li>
-            </ul>
-          )
-        }
+      {/* Nav rigth */}
+      <div className={styles.header__wrap}>
 
         {/* Profile page */}
         {
           isAuth && (
-            <Link to={'/user/profile'}>
-
-              {/* Avatar */}
-              {
-                user?.avatar ?
-                  <img
-                    className={styles.avatar}
-                    src={`${process.env.HOST}/${user?.avatar}`}
-                    alt="avatar" /> :
-                  <img
-                    className={styles.avatar}
-                    src="../../assets/images/basicAvatar/basicAvatar.svg"
-                    alt="avatar" />
-              }
-            </Link>
+            <Avatar url={user?.avatar} to={'/user/profile'} />
           )
         }
 
-        {/* Login and logout */}
-        <div className={styles.navRight}>
-          <Link to={'/auth/login'}>
-            <span className={styles.btnHeader} onClick={isAuth ? logoutHandler : undefined}>{ isAuth ? 'Logout' : 'Login' }</span>
-          </Link>
-        </div>
-      </nav>
+        {/* Login/Logout */}
+        <Link to={'/auth/login'}>
+          <span 
+            className={styles.btn} 
+            onClick={isAuth ? logoutHandler : undefined}
+          >
+            {isAuth ? 'Logout' : 'Login'}
+          </span>
+        </Link>
+      </div>
     </header>
   )
 }

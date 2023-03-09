@@ -1,45 +1,43 @@
-.navbar {
+/* layout */
+
+.lheader {
   display: grid;
   grid-auto-flow: column;
   justify-content: space-between;
-  
   align-items: center;
 
-  height: 70px;
+  padding: 2vh 18px;
 }
 
-.nav {
+/* module */
+
+.header__wrap {
   display: grid;
   grid-auto-flow: column;
   justify-content: space-between;
+  align-items: center;
 
-  width: 57vmin;
+  min-width: 19vmin;
+  gap: 1vw;
 }
 
-.navRight {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-}
-
-.btnHeader {
+.btn {
   display: inline-grid;
   padding: 12px 12px;
-
-  border-style: solid;
-  border-width: 2px;
-  border-color: black;
-  border-radius: 5px;
 
   white-space: nowrap;
 }
 
-.activeStyles {
-  font-size: 24px;
+/* theme */
+
+.lheader {
+  background-color: white;
+  border-radius: 18px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
 }
 
-.avatar {
-  border-radius: 50%;
-  border-width: 1px;
-  height: 55px;
+.btn {
+  border-radius: 6px;
+  background-color: #4B56D2;
+  color: white;
 }
