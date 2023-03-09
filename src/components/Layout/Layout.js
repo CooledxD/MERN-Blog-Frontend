@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // Components
 import { Header } from '../header/header.js'
+import { Main } from "../Main/Main.js";
 
 // Styles
 import styles from './layout.module.css'
@@ -11,9 +12,7 @@ export const Layout = () => {
   return (
     <div className={ styles.lContainer }>
       <Header />
-      <main style={{paddingTop: 12}}>
-        <Outlet />
-      </main>
+      <Main outlet={<Outlet />} />
     </div>
   )
 }
