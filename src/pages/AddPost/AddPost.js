@@ -5,8 +5,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 // Store
-import { createPost } from "../../redux/features/post/postSlice.js";
-import { addPostUserState } from "../../redux/features/user/userSlice.js";
+import { createPost } from "../../store/features/post/postSlice.js";
+import { addPostUserState } from "../../store/features/user/userSlice.js";
 
 // Component
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";

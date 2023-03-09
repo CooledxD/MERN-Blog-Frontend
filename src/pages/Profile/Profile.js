@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
-import { updateAvatar } from '../../redux/features/user/userSlice.js'
+import { updateAvatar } from '../../store/features/user/userSlice.js'
 
 // Styles
 import styles from './profile.module.css'

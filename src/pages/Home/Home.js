@@ -8,7 +8,7 @@ import { PostItem } from "../../components/PostItem/PostItem.js";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
 
 // Store
-import { getAllPosts } from "../../redux/features/post/postSlice.js";
+import { getAllPosts } from "../../store/features/post/postSlice.js";
 
 // Styles
 import styles from './home.module.css'

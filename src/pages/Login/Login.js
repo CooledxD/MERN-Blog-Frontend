@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 // Store
-import { getUser } from "../../redux/features/user/userSlice.js";
-import { renewAccessToken } from "../../redux/features/auth/authSlice.js";
-import { getUserPosts } from "../../redux/features/post/postSlice.js";
+import { getUser } from "../../store/features/user/userSlice.js";
+import { renewAccessToken } from "../../store/features/auth/authSlice.js";
+import { getUserPosts } from "../../store/features/post/postSlice.js";
 
 // Utils
 import { loginUser } from "../../utils/api.js";

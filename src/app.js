@@ -20,9 +20,9 @@ import { PrivateRoute } from './components/PrivateRoute/PrivateRoute.js';
 import { AuthenticationRoute } from './components/AuthenticationRoute/AuthenticationRoute.js'
 
 // Store
-import { renewAccessToken } from './redux/features/auth/authSlice.js';
-import { getUser } from './redux/features/user/userSlice.js';
-import { getUserPosts } from './redux/features/post/postSlice.js';
+import { renewAccessToken } from './store/features/auth/authSlice.js';
+import { getUser } from './store/features/user/userSlice.js';
+import { getUserPosts } from './store/features/post/postSlice.js';
 
 // Styles
 import './index.css'

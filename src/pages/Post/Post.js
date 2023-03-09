@@ -8,9 +8,9 @@ import { CommentItem } from "../../components/CommentItem/CommentItem.js";
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage.js'
 
 // State
-import { createComment, getPostComments, removeComments } from "../../redux/features/comment/commentSlice.js";
-import { removePost } from "../../redux/features/post/postSlice.js";
-import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../redux/features/user/userSlice.js";
+import { createComment, getPostComments, removeComments } from "../../store/features/comment/commentSlice.js";
+import { removePost } from "../../store/features/post/postSlice.js";
+import { addLikeUserState, removeLikeUserState, removePostUserState } from "../../store/features/user/userSlice.js";
 
 // Utils
 import axios from '../../utils/axios.js'

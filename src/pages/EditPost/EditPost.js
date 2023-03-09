@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css'
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage.js";
 
 // Store
-import { updatePost } from "../../redux/features/post/postSlice.js";
+import { updatePost } from "../../store/features/post/postSlice.js";
 
 // Utils
 import axios from '../../utils/axios.js'

@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
-import { logoutAuthState } from "../../redux/features/auth/authSlice.js";
-import { logoutUserState } from "../../redux/features/user/userSlice.js";
-import { logoutPostState } from "../../redux/features/post/postSlice.js";
+import { logoutAuthState } from "../../store/features/auth/authSlice.js";
+import { logoutUserState } from "../../store/features/user/userSlice.js";
+import { logoutPostState } from "../../store/features/post/postSlice.js";
 
 // Components
 import { Avatar } from "../Avatar/Avatar.js";

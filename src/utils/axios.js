@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { store } from '../redux/store.js'
+import { store } from '../store/configStore.js'
 
 // Adding a base url to a request
 const preSetupAxios = axios.create({

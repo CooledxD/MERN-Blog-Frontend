@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from "react-redux";
 
 // Store
-import { removeComment } from "../../redux/features/comment/commentSlice.js";
+import { removeComment } from "../../store/features/comment/commentSlice.js";
 
 // Styles
 import styles from './commentItem.module.css'
